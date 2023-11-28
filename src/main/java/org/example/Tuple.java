@@ -43,6 +43,38 @@ public class Tuple {
         this.w *= scalar;
     }
 
+    public void setAtIndex(int index, double element) {
+        if(index == 0) {
+            this.x = element;
+        }
+        else if(index == 1) {
+            this.y = element;
+        }
+        else if(index == 2) {
+            this.z = element;
+        }
+        else if(index == 3) {
+            this.w = element;
+        }
+    }
+
+    public double getAtIndex(int index) {
+        double item = 0;
+        if(index == 0) {
+            item = this.x;
+        }
+        else if(index == 1) {
+            item = this.y;
+        }
+        else if(index == 2) {
+            item = this.z;
+        }
+        else {
+            item = this.w;
+        }
+        return item;
+    }
+
     public double getX() {
         return x;
     }
