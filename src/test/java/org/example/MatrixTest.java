@@ -89,4 +89,117 @@ public class MatrixTest {
         Tuple result = matrixOperations.multiplyMatrixByTuple(matrix, tuple);
         assertTrue(compare.equalTuples(result));
     }
+
+    @Test
+    void multiplyByIdentityMatrixTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix = {{0,1,2,4},
+                {1,2,4,8},
+                {2,4,8,16},
+                {4,8,16,32}};
+        double[][] result = matrixOperations.multiplyByIdentityMatrix(matrix);
+        assertTrue(Arrays.deepEquals(result, matrix));
+    }
+
+    @Test
+    void transposeMatrixTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{0,9,3,0},
+                {9,8,0,8},
+                {1,8,5,3},
+                {0,0,5,8}};
+        double[][] compare =
+                {{0,9,1,0},
+                {9,8,8,0},
+                {3,0,5,5},
+                {0,8,3,8}};
+        double[][] result = matrixOperations.transposeMatrix(matrix);
+        assertTrue(Arrays.deepEquals(result, compare));
+    }
+
+    @Test
+    void transposeIdentityMatrix() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] identityMatrix =
+                {{1,0,0,0},
+                {0,1,0,0},
+                {0,0,1,0},
+                {0,0,0,1}};
+        assertTrue(Arrays.deepEquals(identityMatrix, matrixOperations.transposeMatrix(identityMatrix)));
+    }
+
+    @Test
+    void determinantOf2By2MatrixTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{1,5},
+                {-3,2}};
+        assertEquals(matrixOperations.determinant(matrix), 17);
+    }
+
+    @Test
+    void submatrixTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{-6,1,1,6},
+                {-8,5,8,6},
+                {-1,0,8,2},
+                {-7,1,-1,1}};
+        double[][] result = matrixOperations.submatrix(matrix, 2, 1);
+        double[][] compare =
+                {{-6,1,6},
+                {-8,8,6},
+                {-7,-1,1}};
+        assertTrue(Arrays.deepEquals(result, compare));
+    }
+
+    @Test
+    void minorTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{3,5,0},
+                {2,-1,-7},
+                {6,-1,5}};
+        assertEquals(matrixOperations.minor(matrix, 1, 0), 25);
+    }
+
+    @Test
+    void cofactorTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{3,5,0},
+                {2,-1,-7},
+                {6,-1,5}};
+        assertEquals(matrixOperations.cofactor(matrix, 0, 0), -12);
+        assertEquals(matrixOperations.cofactor(matrix, 1, 0), -25);
+    }
+
+    @Test
+    void determinantTest1() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{1,2,6},
+                {-5,8,-4},
+                {2,6,4}};
+        assertEquals(matrixOperations.cofactor(matrix, 0, 0), 56);
+        assertEquals(matrixOperations.cofactor(matrix, 0, 1), 12);
+        assertEquals(matrixOperations.cofactor(matrix, 0, 2), -46);
+        assertEquals(matrixOperations.determinant(matrix), -196);
+    }
+
+    @Test
+    void determinantTest2() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix =
+                {{-2,-8,3,5},
+                {-3,1,7,3},
+                {1,2,-9,6},
+                {-6,7,7,-9}};
+        assertEquals(matrixOperations.cofactor(matrix, 0, 0), 690);
+        assertEquals(matrixOperations.cofactor(matrix, 0, 1), 447);
+        assertEquals(matrixOperations.cofactor(matrix, 0, 2), 210);
+        assertEquals(matrixOperations.cofactor(matrix, 0, 3), 51);
+        assertEquals(matrixOperations.determinant(matrix), -4071);
+    }
 }

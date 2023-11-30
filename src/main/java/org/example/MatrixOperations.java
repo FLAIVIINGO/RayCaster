@@ -35,4 +35,76 @@ public class MatrixOperations {
         }
         return cell;
     }
+
+    public double[][] multiplyByIdentityMatrix(double[][] matrix) {
+        double[][] identityMatrix =
+                {{1,0,0,0},
+                {0,1,0,0},
+                {0,0,1,0},
+                {0,0,0,1}};
+
+        return multiplyMatrices(matrix, identityMatrix);
+    }
+
+    public double[][] transposeMatrix(double[][] matrix) {
+        double[][] result = new double[matrix.length][matrix[0].length];
+        for(int i = 0; i < result.length; i++) {
+            for(int j = 0; j < result[0].length; j++) {
+                result[j][i] = matrix[i][j];
+            }
+        }
+        return result;
+    }
+
+
+    public double[][] submatrix(double[][] matrix, int row, int column) {
+        double[][] result = new double[matrix.length - 1][matrix[0].length - 1];
+        int p = 0;
+        for(int i = 0; i < matrix.length; i++) {
+            if(i == row) continue;
+            int q = 0;
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(j == column) continue;
+                result[p][q] = matrix[i][j];
+                q++;
+            }
+            p++;
+        }
+        return result;
+    }
+
+    public double minor(double[][] matrix, int row, int column) {
+        double[][] submtx = submatrix(matrix, row, column);
+        return determinant(submtx);
+    }
+
+    public double cofactor(double[][] matrix, int row, int column) {
+        double[][] smaller = new double[matrix.length - 1][matrix.length - 1];
+        for (int i = 0; i < matrix.length; i++) {
+            if (i == row) continue;
+            for (int j = 0; j < matrix.length; j++) {
+                if (j == column) continue;
+                int smallerRow = i < row ? i : i - 1;
+                int smallerCol = j < column ? j : j - 1;
+                smaller[smallerRow][smallerCol] = matrix[i][j];
+            }
+        }
+        return Math.pow(-1, row + column) * determinant(smaller);
+    }
+
+    public double determinant(double[][] matrix) {
+        if(matrix.length == 2) {
+            /*
+             * | a b |
+             * | c d |
+             *  = ad - bc
+             */
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        }
+        double det = 0;
+        for(int column = 0; column < matrix.length; column++) {
+            det += (matrix[0][column] * cofactor(matrix, 0, column));
+        }
+        return det;
+    }
 }
