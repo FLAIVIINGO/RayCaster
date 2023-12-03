@@ -202,4 +202,21 @@ public class MatrixTest {
         assertEquals(matrixOperations.cofactor(matrix, 0, 3), 51);
         assertEquals(matrixOperations.determinant(matrix), -4071);
     }
+
+    @Test
+    void invertibleTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] matrix1 =
+                {{6,4,4,4},
+                {5,5,7,6},
+                {4,-9,3,-7},
+                {9,1,7,-6}};
+        double[][] matrix2 =
+                {{-4,2,-2,-3},
+                {9,6,2,6},
+                {0,-5,1,-5},
+                {0,0,0,0}};
+        assertTrue(matrixOperations.isInvertible(matrix1));
+        assertFalse(matrixOperations.isInvertible(matrix2));
+    }
 }

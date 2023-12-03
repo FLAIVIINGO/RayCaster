@@ -107,4 +107,8 @@ public class MatrixOperations {
         }
         return det;
     }
+
+    public boolean isInvertible(double[][] matrix) {
+        return determinant(matrix) != 0;
+    }
 }
