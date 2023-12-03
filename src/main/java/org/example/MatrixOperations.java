@@ -1,5 +1,8 @@
 package org.example;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class MatrixOperations {
 
     public double[][] multiplyMatrices(double[][] m1, double[][] m2) {
@@ -110,5 +113,23 @@ public class MatrixOperations {
 
     public boolean isInvertible(double[][] matrix) {
         return determinant(matrix) != 0;
+    }
+
+    public double[][] inverse(double[][] matrix, double deter) {
+        if(!isInvertible(matrix)) {
+            return null;
+        }
+
+        double[][] matrixTranspose = transposeMatrix(matrix);
+        double[][] result = new double[matrix.length][matrix.length];
+        for(int i = 0; i < result.length; i++) {
+            for(int j = 0; j < result.length; j++) {
+                double value = cofactor(matrixTranspose, i, j) / deter;
+                BigDecimal bd = new BigDecimal(value);
+                bd = bd.setScale(5, RoundingMode.HALF_UP);
+                result[i][j] = bd.doubleValue();
+            }
+        }
+        return result;
     }
 }
