@@ -132,4 +132,18 @@ public class MatrixOperations {
         }
         return result;
     }
+
+    public double[][] translation(double x, double y, double z) {
+        return new double[][]{{1, 0, 0, x},
+                {0, 1, 0, y},
+                {0, 0, 1, z},
+                {0,0,0,1}};
+    }
+
+    public double[][] scaling(double x, double y, double z) {
+        return new double[][]{{x,0,0,0},
+                {0,y,0,0},
+                {0,0,z,0},
+                {0,0,0,1}};
+    }
 }

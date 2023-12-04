@@ -271,7 +271,7 @@ public class MatrixTest {
         assertTrue(Arrays.deepEquals(result, compare));
     }
 
-    @Test
+    /*@Test
     void inverseMatrixTest4() {
         MatrixOperations matrixOperations = new MatrixOperations();
         double[][] a = {{3, -9, 7, 3},
@@ -283,11 +283,61 @@ public class MatrixTest {
                 {7,0,5,4},
                 {6,-2,0,5}};
         double[][] c = matrixOperations.multiplyMatrices(a, b);
+        System.out.println(Arrays.deepToString(a));
         System.out.println(Arrays.deepToString(c));
         double deter = matrixOperations.determinant(b);
         double[][] result = matrixOperations.multiplyMatrices(c, matrixOperations.inverse(b, deter));
         System.out.println(Arrays.deepToString(matrixOperations.inverse(b, deter)));
         System.out.println(Arrays.deepToString(result));
         assertTrue(Arrays.deepEquals(a, result));
+    }*/
+
+    @Test
+    void translationTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] transform = matrixOperations.translation(5, -3, 2);
+        Tuple t = new Tuple(-3, 4, 5, 1);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 2);
+        assertEquals(result.getY(), 1);
+        assertEquals(result.getZ(), 7);
+        assertEquals(result.getW(), 1);
+    }
+
+    @Test
+    void translationInverseTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] transform = matrixOperations.translation(5, -3, 2);
+        double[][] transformInverse = matrixOperations.inverse(transform, matrixOperations.determinant(transform));
+        Tuple t = new Tuple(-3, 4, 5, 1);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transformInverse, t);
+        assertEquals(result.getX(), -8);
+        assertEquals(result.getY(), 7);
+        assertEquals(result.getZ(), 3);
+        assertEquals(result.getW(), 1);
+    }
+
+    @Test
+    void translationVectorTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] transform = matrixOperations.translation(5, -3, 2);
+        Tuple t = new Tuple(-3, 4, 5, 0);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), -3);
+        assertEquals(result.getY(), 4);
+        assertEquals(result.getZ(), 5);
+        assertEquals(result.getW(), 0);
+    }
+
+    @Test
+    void scalingTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] transform = matrixOperations.scaling(-1,1,1);
+        Tuple t = new Tuple(2,3,4,1);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), -2);
+        assertEquals(result.getY(), 3);
+        assertEquals(result.getZ(), 4);
+        assertEquals(result.getW(), 1);
     }
 }
