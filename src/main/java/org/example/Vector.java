@@ -10,9 +10,7 @@ public class Vector extends Tuple{
         super(x, y, z, 0.0);
     }
 
-    public Point add(Point p) {
-        return new Point(p.x + this.x, p.y + this.y, p.z + this.z);
-    }
+    public Point add(Point p) {return new Point(p.x + this.x, p.y + this.y, p.z + this.z);}
 
     public Vector add(Vector v) {
         return new Vector(v.x + this.x, v.y + this.y, v.z + this.z);
@@ -24,6 +22,14 @@ public class Vector extends Tuple{
 
     public double magnitude() {
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) + Math.pow(this.w, 2));
+    }
+
+    public Vector multiplyScalar(double scalar) {
+        return new Vector(
+                this.x * scalar,
+                this.y * scalar,
+                this.z * scalar
+        );
     }
 
     public void normal() {

@@ -234,7 +234,7 @@ public class MatrixTest {
                 {-0.52256,-0.81391,-0.30075,0.30639}};
         double deter = matrixOperations.determinant(matrix);
         double[][] result = matrixOperations.inverse(matrix, deter);
-        assertTrue(Arrays.deepEquals(result, compare));
+        assertTrue(matrixOperations.equalMatrices(result, compare));
     }
 
     @Test
@@ -251,7 +251,7 @@ public class MatrixTest {
                 {-0.69231,-0.69231,-0.76923,-1.92308}};
         double deter = matrixOperations.determinant(matrix);
         double[][] result = matrixOperations.inverse(matrix, deter);
-        assertTrue(Arrays.deepEquals(result, compare));
+        assertTrue(matrixOperations.equalMatrices(result, compare));
     }
 
     @Test
@@ -268,10 +268,10 @@ public class MatrixTest {
                 {0.17778,0.06667,-0.26667,0.33333}};
         double deter = matrixOperations.determinant(matrix);
         double[][] result = matrixOperations.inverse(matrix, deter);
-        assertTrue(Arrays.deepEquals(result, compare));
+        assertTrue(matrixOperations.equalMatrices(result, compare));
     }
 
-    /*@Test
+    @Test
     void inverseMatrixTest4() {
         MatrixOperations matrixOperations = new MatrixOperations();
         double[][] a = {{3, -9, 7, 3},
@@ -283,14 +283,10 @@ public class MatrixTest {
                 {7,0,5,4},
                 {6,-2,0,5}};
         double[][] c = matrixOperations.multiplyMatrices(a, b);
-        System.out.println(Arrays.deepToString(a));
-        System.out.println(Arrays.deepToString(c));
         double deter = matrixOperations.determinant(b);
         double[][] result = matrixOperations.multiplyMatrices(c, matrixOperations.inverse(b, deter));
-        System.out.println(Arrays.deepToString(matrixOperations.inverse(b, deter)));
-        System.out.println(Arrays.deepToString(result));
-        assertTrue(Arrays.deepEquals(a, result));
-    }*/
+        assertTrue(matrixOperations.equalMatrices(result, a));
+    }
 
     @Test
     void translationTest() {
@@ -339,5 +335,87 @@ public class MatrixTest {
         assertEquals(result.getY(), 3);
         assertEquals(result.getZ(), 4);
         assertEquals(result.getW(), 1);
+    }
+
+    @Test
+    void rotationXTest() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(0, 1, 0, 1);
+        double[][] halfQuarter = matrixOperations.rotationX(Math.PI / 4);
+        double[][] fullQuarter = matrixOperations.rotationX(Math.PI / 2);
+        Tuple result1 = matrixOperations.multiplyMatrixByTuple(halfQuarter, t);
+        Tuple result2 = matrixOperations.multiplyMatrixByTuple(fullQuarter, t);
+        assertTrue(matrixOperations.equal(result1.getX(), 0));
+        assertTrue(matrixOperations.equal(result1.getY(), Math.sqrt(2) / 2));
+        assertTrue(matrixOperations.equal(result1.getZ(), Math.sqrt(2) / 2));
+        assertTrue(matrixOperations.equal(result2.getX(), 0));
+        assertTrue(matrixOperations.equal(result2.getY(), 0));
+        assertTrue(matrixOperations.equal(result2.getZ(), 1));
+    }
+
+    @Test
+    void shearingTest1() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(2, 3, 4, 1);
+        double[][] transform = matrixOperations.shearing(1, 0, 0, 0, 0, 0);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 5);
+        assertEquals(result.getY(), 3);
+        assertEquals(result.getZ(), 4);
+    }
+
+    @Test
+    void shearingTest2() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(2, 3, 4, 1);
+        double[][] transform = matrixOperations.shearing(0, 1, 0, 0, 0, 0);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 6);
+        assertEquals(result.getY(), 3);
+        assertEquals(result.getZ(), 4);
+    }
+
+    @Test
+    void shearingTest3() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(2, 3, 4, 1);
+        double[][] transform = matrixOperations.shearing(0, 0, 1, 0, 0, 0);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 2);
+        assertEquals(result.getY(), 5);
+        assertEquals(result.getZ(), 4);
+    }
+
+    @Test
+    void shearingTest4() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(2, 3, 4, 1);
+        double[][] transform = matrixOperations.shearing(0, 0, 0, 1, 0, 0);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 2);
+        assertEquals(result.getY(), 7);
+        assertEquals(result.getZ(), 4);
+    }
+
+    @Test
+    void shearingTest5() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(2, 3, 4, 1);
+        double[][] transform = matrixOperations.shearing(0, 0, 0, 0, 1, 0);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 2);
+        assertEquals(result.getY(), 3);
+        assertEquals(result.getZ(), 6);
+    }
+
+    @Test
+    void shearingTest6() {
+        MatrixOperations matrixOperations = new MatrixOperations();
+        Tuple t = new Tuple(2, 3, 4, 1);
+        double[][] transform = matrixOperations.shearing(0, 0, 0, 0, 0, 1);
+        Tuple result = matrixOperations.multiplyMatrixByTuple(transform, t);
+        assertEquals(result.getX(), 2);
+        assertEquals(result.getY(), 3);
+        assertEquals(result.getZ(), 7);
     }
 }

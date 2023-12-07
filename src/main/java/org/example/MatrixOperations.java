@@ -5,6 +5,22 @@ import java.math.RoundingMode;
 
 public class MatrixOperations {
 
+    public boolean equal(double a, double b) {
+        double EPSILON = 0.00001;
+        return Math.abs(a - b) < EPSILON;
+    }
+
+    public boolean equalMatrices(double[][] a, double[][] b) {
+        for(int i = 0; i < a.length; i++) {
+            for(int j = 0; j < a.length; j++) {
+                if(!equal(a[i][j], b[i][j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public double[][] multiplyMatrices(double[][] m1, double[][] m2) {
         double[][] result = new double[m1.length][m2[0].length];
         for(int i = 0; i < m1.length; i++) {
@@ -125,9 +141,7 @@ public class MatrixOperations {
         for(int i = 0; i < result.length; i++) {
             for(int j = 0; j < result.length; j++) {
                 double value = cofactor(matrixTranspose, i, j) / deter;
-                BigDecimal bd = new BigDecimal(value);
-                bd = bd.setScale(5, RoundingMode.HALF_UP);
-                result[i][j] = bd.doubleValue();
+                result[i][j] = value;
             }
         }
         return result;
@@ -145,5 +159,33 @@ public class MatrixOperations {
                 {0,y,0,0},
                 {0,0,z,0},
                 {0,0,0,1}};
+    }
+
+    public double[][] rotationX(double radians) {
+        return new double[][]{{1,0,0,0},
+                {0, Math.cos(radians), -Math.sin(radians), 0},
+                {0, Math.sin(radians), Math.cos(radians), 0},
+                {0,0,0,1}};
+    }
+
+    public double[][] rotationY(double radians) {
+        return new double[][]{{Math.cos(radians), 0, Math.sin(radians), 0},
+                {0,1,0,0},
+                {-Math.sin(radians), 0, Math.cos(radians), 0},
+                {0,0,0,1}};
+    }
+
+    public double[][] rotationZ(double radians) {
+        return new double[][]{{Math.cos(radians),-Math.sin(radians),0,0},
+                {Math.sin(radians), Math.cos(radians),0,0},
+                {0,0,1,0},
+                {0,0,0,1}};
+    }
+
+    public double[][] shearing(double xY, double xZ, double yX, double yZ, double zX, double zY) {
+        return new double[][]{{1, xY, xZ, 0},
+                {yX, 1, yZ, 0},
+                {zX, zY, 1, 0},
+                {0, 0, 0, 1}};
     }
 }

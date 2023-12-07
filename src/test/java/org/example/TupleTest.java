@@ -97,17 +97,17 @@ class TupleTest {
     @Test
     void multiplyByScalar() {
         Tuple t = new Tuple(1, -2, 3, -4);
-        t.multiplyScalar(3.5);
-        assertEquals(t.getX(), 3.5);
-        assertEquals(t.getY(), -7);
-        assertEquals(t.getZ(), 10.5);
-        assertEquals(t.getW(), -14);
+        Tuple newT = t.multiplyScalar(3.5);
+        assertEquals(newT.getX(), 3.5);
+        assertEquals(newT.getY(), -7);
+        assertEquals(newT.getZ(), 10.5);
+        assertEquals(newT.getW(), -14);
         Tuple t2 = new Tuple(1, -2, 3, -4);
-        t2.multiplyScalar(0.5);
-        assertEquals(t2.getX(), 0.5);
-        assertEquals(t2.getY(), -1);
-        assertEquals(t2.getZ(), 1.5);
-        assertEquals(t2.getW(), -2);
+        Tuple newT2 = t.multiplyScalar(0.5);
+        assertEquals(newT2.getX(), 0.5);
+        assertEquals(newT2.getY(), -1);
+        assertEquals(newT2.getZ(), 1.5);
+        assertEquals(newT2.getW(), -2);
     }
 
     @Test

@@ -36,11 +36,12 @@ public class Tuple {
         this.w = 0 - this.w;
     }
 
-    public void multiplyScalar(double scalar) {
-        this.x *= scalar;
-        this.y *= scalar;
-        this.z *= scalar;
-        this.w *= scalar;
+    public Tuple multiplyScalar(double scalar) {
+        return new Tuple(
+                this.x * scalar,
+                this.y * scalar,
+                this.z * scalar,
+                this.w * scalar);
     }
 
     public void setAtIndex(int index, double element) {
