@@ -24,4 +24,8 @@ public class Ray {
         p = p.add(v);
         return p;
     }
+
+    public double dotProduct(Vector vector) {
+        return this.direction.dotProduct(vector);
+    }
 }
