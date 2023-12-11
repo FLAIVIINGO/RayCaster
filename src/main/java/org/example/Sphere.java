@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.UUID;
 
-public class Sphere {
+public class Sphere{
     private final UUID id;
     private Point origin;
     private double radius;

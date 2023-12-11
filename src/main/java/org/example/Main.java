@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Hello");
-        Canvas canvas = new Canvas(900, 550);
+        /*Canvas canvas = new Canvas(900, 550);
         Color c = new Color(0, 1, 0);
         MatrixOperations matrixOperations = new MatrixOperations();
         Tuple start = new Tuple(1, 0, 0, 1);
@@ -33,25 +33,26 @@ public class Main {
                 canvas.setPixel((int) point.getX(), (int) point.getY(), c);
             }
         }
-        canvas.canvasToPPM("clock.ppm");
+        canvas.canvasToPPM("clock.ppm");*/
 
-
-        /*Point position = new Point(0, 1, 0);
-        Vector velocity = new Vector(1, 1.8, 0);
+        /*TupleCreation tp = new TupleCreation();
+        Tuple position = tp.point(0, 1, 0);
+        Tuple velocity = tp.vector(1, 1.8, 0);
         velocity.normal();
-        velocity.multiplyScalar(11.25);
-        Projectile p = new Projectile(position, velocity);
-        Vector gravity = new Vector(0, -0.1, 0);
-        Vector wind = new Vector(-0.01, 0, 0);
+        Tuple scaledVelocity = velocity.multiplyScalar(11.25);
+        System.out.println(velocity.getX()+" "+ velocity.getY()+" "+ velocity.getZ());
+        Projectile p = new Projectile(position, scaledVelocity);
+        Tuple gravity = tp.vector(0, -0.1, 0);
+        Tuple wind = tp.vector(-0.01, 0, 0);
         Environment e = new Environment(gravity, wind);
         Canvas canvas = new Canvas(900, 550);
         Color color = new Color(255, 0, 0);
 
         int count = 1;
         while(p.position.y >= 0) {
-            // System.out.println("Count: "+count);
-            // System.out.println("position: "+p.position.getX()+
-                    // ", "+p.position.getY());
+            System.out.println("Count: "+count);
+            System.out.println("position: "+p.position.getX()+
+                    ", "+p.position.getY());
             int x = (int)p.position.getX();
             int y = (int)p.position.getY();
             if((x > 0 && x < canvas.getWidth()) && (y > 0 && y < canvas.getHeight())) {
@@ -64,26 +65,29 @@ public class Main {
     }
 
     public static class Projectile {
-        Point position;
-        Vector velocity;
-        public Projectile(Point p, Vector v) {
-            position = new Point(p.x, p.y, p.z);
-            velocity = new Vector(v.x, v.y, v.z);
+        Tuple position;
+        Tuple velocity;
+        TupleCreation tp = new TupleCreation();
+        public Projectile(Tuple p, Tuple v) {
+            position = tp.point(p.x, p.y, p.z);
+            velocity = tp.vector(v.x, v.y, v.z);
         }
     }
 
     public static class Environment {
-        Vector gravity;
-        Vector wind;
-        public Environment(Vector g, Vector w) {
-            gravity = new Vector(g.x, g.y, g.z);
-            wind = new Vector(w.x, w.y, w.z);
+        Tuple gravity;
+        Tuple wind;
+
+        TupleCreation tp = new TupleCreation();
+        public Environment(Tuple g, Tuple w) {
+            gravity = tp.vector(g.x, g.y, g.z);
+            wind = tp.vector(w.x, w.y, w.z);
         }
     }
 
     public static Projectile tick(Projectile projectile, Environment environment) {
-        Point position = projectile.position.add(projectile.velocity);
-        Vector velocity = projectile.velocity.add(environment.gravity).add(environment.wind);
+        Tuple position = projectile.position.add(projectile.velocity);
+        Tuple velocity = projectile.velocity.add(environment.gravity).add(environment.wind);
         return new Projectile(position, velocity);
     }
 }

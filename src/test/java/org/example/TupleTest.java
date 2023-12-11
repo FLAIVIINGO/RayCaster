@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class TupleTest {
     @Test
     void createTuple() {
@@ -21,7 +22,8 @@ class TupleTest {
 
     @Test
     void createPoint() {
-        Point p = new Point(4, -4, 3);
+        TupleCreation tp = new TupleCreation();
+        Tuple p = tp.point(4, -4, 3);
         assertEquals(p.getX(), 4);
         assertEquals(p.getY(), -4);
         assertEquals(p.getZ(), 3);
@@ -30,7 +32,8 @@ class TupleTest {
 
     @Test
     void createVector() {
-        Vector v = new Vector(4, -4, 3);
+        TupleCreation tp = new TupleCreation();
+        Tuple v = tp.vector(4, -4, 3);
         assertEquals(v.getX(), 4);
         assertEquals(v.getY(), -4);
         assertEquals(v.getZ(), 3);
@@ -50,10 +53,11 @@ class TupleTest {
 
     @Test
     void addPointVector() {
-        Vector v = new Vector(3, -2, 5);
-        Point p = new Point(-2, 3, 1);
-        Point res = v.add(p);
-        Point res1 = p.add(v);
+        TupleCreation tp = new TupleCreation();
+        Tuple v = tp.vector(3, -2, 5);
+        Tuple p = tp.point(-2, 3, 1);
+        Tuple res = v.add(p);
+        Tuple res1 = p.add(v);
         assertEquals(res.getX(), 1);
         assertEquals(res.getY(), 1);
         assertEquals(res.getZ(), 6);
@@ -65,23 +69,36 @@ class TupleTest {
     }
 
     @Test
-    void subtractVectorFromPoint() {
-        Vector v = new Vector(5, 6, 7);
-        Point p = new Point(3, 2, 1);
-        Point res = p.subtract(v);
+    void subtractPoints() {
+        TupleCreation tp = new TupleCreation();
+        Tuple p1 = tp.point(3, 2, 1);
+        Tuple p2 = tp.point(5, 6, 7);
+        Tuple res = p1.subtract(p2);
         assertEquals(res.getX(), -2);
         assertEquals(res.getY(), -4);
         assertEquals(res.getZ(), -6);
     }
 
     @Test
+    void subtractVectorFromPoint() {
+        TupleCreation tp = new TupleCreation();
+        Tuple p = tp.point(3, 2, 1);
+        Tuple v = tp.vector(5, 6, 7);
+        Tuple result = p.subtract(v);
+        assertEquals(result.getX(), -2);
+        assertEquals(result.getY(), -4);
+        assertEquals(result.getZ(), -6);
+    }
+
+    @Test
     void subtractVectors() {
-        Vector v1 = new Vector(3, 2, 1);
-        Vector v2 = new Vector(5, 6, 7);
-        Vector res = v2.subtract(v1);
-        assertEquals(res.getX(), -2);
-        assertEquals(res.getY(), -4);
-        assertEquals(res.getZ(), -6);
+        TupleCreation tp = new TupleCreation();
+        Tuple v1 = tp.vector(3, 2, 1);
+        Tuple v2 = tp.vector(5, 6, 7);
+        Tuple result = v1.subtract(v2);
+        assertEquals(result.getX(), -2);
+        assertEquals(result.getY(), -4);
+        assertEquals(result.getZ(), -6);
     }
 
     @Test
@@ -112,8 +129,9 @@ class TupleTest {
 
     @Test
     void testMagnitude() {
-        Vector v1 = new Vector(1, 2, 3);
-        Vector v2 = new Vector(-1, -2, -3);
+        TupleCreation tp = new TupleCreation();
+        Tuple v1 = tp.vector(1, 2, 3);
+        Tuple v2 = tp.vector(-1, -2, -3);
         double m1 = v1.magnitude();
         double m2 = v2.magnitude();
         assertEquals(m1, Math.sqrt(14));
@@ -122,7 +140,8 @@ class TupleTest {
 
     @Test
     void testNormalization() {
-        Vector v = new Vector(4, 0, 0);
+        TupleCreation tp = new TupleCreation();
+        Tuple v = tp.vector(4, 0, 0);
         v.normal();
         assertEquals(v.getX(), 1);
         assertEquals(v.getY(), 0);
@@ -131,20 +150,22 @@ class TupleTest {
 
     @Test
     void testDotProduct() {
-        Vector a = new Vector(1, 2, 3);
-        Vector b = new Vector(2, 3, 4);
+        TupleCreation tp = new TupleCreation();
+        Tuple a = tp.vector(1, 2, 3);
+        Tuple b = tp.vector(2, 3, 4);
         double ans = a.dotProduct(b);
         assertEquals(ans, 20);
     }
 
     @Test
     void testCrossProduct() {
-        Vector a = new Vector(1, 2, 3);
-        Vector b = new Vector(2, 3, 4);
-        Vector c = a.crossProduct(b);
-        Vector d = b.crossProduct(a);
-        Vector ans1 = new Vector(-1, 2, -1);
-        Vector ans2 = new Vector(1, -2, 1);
+        TupleCreation tp = new TupleCreation();
+        Tuple a = tp.vector(1, 2, 3);
+        Tuple b = tp.vector(2, 3, 4);
+        Tuple c = a.crossProduct(b);
+        Tuple d = b.crossProduct(a);
+        Tuple ans1 = new Tuple(-1, 2, -1, 0);
+        Tuple ans2 = new Tuple(1, -2, 1, 0);
         boolean eq1 = c.equalTuples(ans1);
         boolean eq2 = d.equalTuples(ans2);
         assertTrue(eq1);

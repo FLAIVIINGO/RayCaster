@@ -17,6 +17,34 @@ public class Tuple {
         this.w = w;
     }
 
+    public Tuple add(Tuple p) {return new Tuple(p.x + this.x, p.y + this.y, p.z + this.z, p.w + this.w);}
+
+    public Tuple subtract(Tuple t) {return new Tuple(this.x - t.x, this.y - t.y, this.z - t.z, this.w - t.w);}
+
+    public double magnitude() {
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) + Math.pow(this.w, 2));
+    }
+
+    public void normal() {
+        this.x = this.x / this.magnitude();
+        this.y = this.y / this.magnitude();
+        this.z = this.z / this.magnitude();
+        this.w = this.w / this.magnitude();
+    }
+
+    public double dotProduct(Tuple a) {
+        return (this.x * a.x +
+                this.y * a.y +
+                this.z * a.z +
+                this.w * a.w);
+    }
+
+    public Tuple crossProduct(Tuple a) {
+        return new Tuple(this.y * a.z - this.z * a.y,
+                this.z * a.x - this.x * a.z,
+                this.x * a.y - this.y * a.x, 0);
+    }
+
     public boolean equal(double a, double b) {
         double EPSILON = 0.00001;
         return Math.abs(a - b) < EPSILON;
