@@ -36,9 +36,6 @@ public class Tuple {
         this.w = 0 - this.w;
     }
 
-    public Tuple subtract(Tuple t) {
-        return new Vector(t.x - this.x, t.y - this.y, t.z - this.z);
-    }
 
     public Tuple multiplyScalar(double scalar) {
         return new Tuple(
