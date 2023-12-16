@@ -6,7 +6,46 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Hello");
-        /*Canvas canvas = new Canvas(900, 550);
+
+    }
+
+    public static void drawSphere() {
+        TupleCreation tp = new TupleCreation();
+
+    }
+
+    public static void drawGraph() {
+        TupleCreation tp = new TupleCreation();
+        Tuple position = tp.point(0, 1, 0);
+        Tuple velocity = tp.vector(1, 1.8, 0);
+        velocity.normal();
+        Tuple scaledVelocity = velocity.multiplyScalar(11.25);
+        System.out.println(velocity.getX()+" "+ velocity.getY()+" "+ velocity.getZ());
+        Projectile p = new Projectile(position, scaledVelocity);
+        Tuple gravity = tp.vector(0, -0.1, 0);
+        Tuple wind = tp.vector(-0.01, 0, 0);
+        Environment e = new Environment(gravity, wind);
+        Canvas canvas = new Canvas(900, 550);
+        Color color = new Color(255, 0, 0);
+
+        int count = 1;
+        while(p.position.y >= 0) {
+            System.out.println("Count: "+count);
+            System.out.println("position: "+p.position.getX()+
+                    ", "+p.position.getY());
+            int x = (int)p.position.getX();
+            int y = (int)p.position.getY();
+            if((x > 0 && x < canvas.getWidth()) && (y > 0 && y < canvas.getHeight())) {
+                canvas.setPixel(x, canvas.getHeight() - y, color);
+            }
+            p = tick(p, e);
+            count++;
+        }
+        canvas.canvasToPPM("together.ppm");
+    }
+
+    public static void drawClock() {
+        Canvas canvas = new Canvas(900, 550);
         Color c = new Color(0, 1, 0);
         MatrixOperations matrixOperations = new MatrixOperations();
         Tuple start = new Tuple(1, 0, 0, 1);
@@ -33,35 +72,7 @@ public class Main {
                 canvas.setPixel((int) point.getX(), (int) point.getY(), c);
             }
         }
-        canvas.canvasToPPM("clock.ppm");*/
-
-        /*TupleCreation tp = new TupleCreation();
-        Tuple position = tp.point(0, 1, 0);
-        Tuple velocity = tp.vector(1, 1.8, 0);
-        velocity.normal();
-        Tuple scaledVelocity = velocity.multiplyScalar(11.25);
-        System.out.println(velocity.getX()+" "+ velocity.getY()+" "+ velocity.getZ());
-        Projectile p = new Projectile(position, scaledVelocity);
-        Tuple gravity = tp.vector(0, -0.1, 0);
-        Tuple wind = tp.vector(-0.01, 0, 0);
-        Environment e = new Environment(gravity, wind);
-        Canvas canvas = new Canvas(900, 550);
-        Color color = new Color(255, 0, 0);
-
-        int count = 1;
-        while(p.position.y >= 0) {
-            System.out.println("Count: "+count);
-            System.out.println("position: "+p.position.getX()+
-                    ", "+p.position.getY());
-            int x = (int)p.position.getX();
-            int y = (int)p.position.getY();
-            if((x > 0 && x < canvas.getWidth()) && (y > 0 && y < canvas.getHeight())) {
-                canvas.setPixel(x, canvas.getHeight() - y, color);
-            }
-            p = tick(p, e);
-            count++;
-        }
-        canvas.canvasToPPM("together.ppm");*/
+        canvas.canvasToPPM("clock.ppm");
     }
 
     public static class Projectile {

@@ -1,18 +1,17 @@
 package org.example;
 
-import java.util.List;
 import java.util.UUID;
 
-public class Sphere extends Shape3D{
+public abstract class Shape3D {
+    protected final UUID id;
+    protected Tuple origin;
 
-    private MatrixOperations mo = new MatrixOperations();
-    private final UUID id;
-    private Tuple origin;
-    private double radius;
+    protected double radius;
 
-    private double[][] transform;
+    protected double[][] transform;
 
-    public Sphere() {
+    public Shape3D() {
+        MatrixOperations mo = new MatrixOperations();
         this.id = UUID.randomUUID();
         this.origin = new Tuple(0, 0, 0, 1);
         this.radius = 1;

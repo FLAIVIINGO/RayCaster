@@ -21,6 +21,13 @@ public class MatrixOperations {
         return true;
     }
 
+    public double[][] identityMatrix() {
+        return new double[][]{{1,0,0,0},
+                {0,1,0,0},
+                {0,0,1,0},
+                {0,0,0,1}};
+    }
+
     public double[][] multiplyMatrices(double[][] m1, double[][] m2) {
         double[][] result = new double[m1.length][m2[0].length];
         for(int i = 0; i < m1.length; i++) {
