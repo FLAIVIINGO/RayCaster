@@ -1,17 +1,52 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("Hello");
-
+        drawSphere();
     }
 
     public static void drawSphere() {
+        Scene scene = new Scene();
+        MatrixOperations mo = new MatrixOperations();
         TupleCreation tp = new TupleCreation();
-
+        // start the ray at z = -5
+        Tuple rayOrigin = tp.point(0, 0, -5);
+        // put the wall at z = 10
+        double wallZ = 10;
+        // canvasPixels
+        int canvasPixels = 100;
+        // wall size = 7.0
+        double wallSize = 7.0;
+        // pixel size
+        double pixelSize = wallSize / canvasPixels;
+        // half
+        double half = wallSize / 2;
+        Canvas canvas = new Canvas(canvasPixels, canvasPixels);
+        Color color = new Color(1, 0 , 0);
+        Shape3D sphere = new Sphere();
+        for(int y = 0; y < canvas.getWidth(); y++) {
+            double worldY = half - pixelSize * y;
+            for(int x = 0; x < canvas.getWidth(); x++) {
+                double worldX = -half + pixelSize * x;
+                Tuple position = tp.point(worldX, worldY, wallZ);
+                Tuple t = position.subtract(rayOrigin);
+                t.normal();
+                Ray r = new Ray(rayOrigin, t);
+                List<Intersection> xs = scene.getShapes();
+                scene.intersect(sphere, r);
+                if(scene.hit(xs) != null) {
+                    canvas.setPixel(x, y, color);
+                }
+            }
+        }
+        canvas.canvasToPPM("circle.ppm");
     }
 
     public static void drawGraph() {

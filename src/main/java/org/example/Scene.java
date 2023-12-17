@@ -42,7 +42,7 @@ public class Scene {
         Tuple directionTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getDirection());
         Ray transformedRay = new Ray(originTransform, directionTransform);
         Tuple sphereToRay = calculateVectorToCenter(transformedRay.getOrigin(), shape.origin);
-        printRay(transformedRay);
+        // printRay(transformedRay);
         double a = transformedRay.getDirection().dotProduct(transformedRay.getDirection());
         double b = 2 * transformedRay.getDirection().dotProduct(sphereToRay);
         double c = sphereToRay.dotProduct(sphereToRay) - 1;
