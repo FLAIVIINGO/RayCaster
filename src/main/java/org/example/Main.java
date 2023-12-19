@@ -31,6 +31,8 @@ public class Main {
         Canvas canvas = new Canvas(canvasPixels, canvasPixels);
         Color color = new Color(1, 0 , 0);
         Shape3D sphere = new Sphere();
+        double[][] transform = mo.multiplyMatrices(mo.shearing(1, 0, 0, 0, 0, 0), mo.scaling(0.5, 1, 1));
+        sphere.setTransform(transform);
         for(int y = 0; y < canvas.getWidth(); y++) {
             double worldY = half - pixelSize * y;
             for(int x = 0; x < canvas.getWidth(); x++) {
@@ -39,8 +41,7 @@ public class Main {
                 Tuple t = position.subtract(rayOrigin);
                 t.normal();
                 Ray r = new Ray(rayOrigin, t);
-                List<Intersection> xs = scene.getShapes();
-                scene.intersect(sphere, r);
+                List<Intersection> xs = scene.intersect(sphere, r);
                 if(scene.hit(xs) != null) {
                     canvas.setPixel(x, y, color);
                 }

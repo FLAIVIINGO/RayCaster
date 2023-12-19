@@ -12,58 +12,53 @@ public class SphereTest {
     void twoPointSphere() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
-        MatrixOperations mo = new MatrixOperations();
-        double[][] identity = mo.identityMatrix();
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
-        assertTrue(scene.intersect(sphere, ray));
-        assertEquals(scene.getShapes().get(0).getTime(), 4.0);
-        assertEquals(scene.getShapes().get(1).getTime(), 6.0);
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 2);
+        assertEquals(xs.get(0).getTime(), 4.0);
+        assertEquals(xs.get(1).getTime(), 6.0);
     }
 
     @Test
     void tangentPointSphere() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
-        MatrixOperations mo = new MatrixOperations();
-        double[][] identity = mo.identityMatrix();
         Ray ray = new Ray(new Tuple(0, 1, -5, 0), new Tuple(0, 0, 1, 0));
-        assertTrue(scene.intersect(sphere, ray));
-        assertEquals(scene.getShapes().get(0).getTime(), 5.0);
-        assertEquals(scene.getShapes().get(1).getTime(), 5.0);
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 2);
+        assertEquals(xs.get(0).getTime(), 5.0);
+        assertEquals(xs.get(1).getTime(), 5.0);
     }
 
     @Test
     void rayMissesSphere() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
-        MatrixOperations mo = new MatrixOperations();
-        double[][] identity = mo.identityMatrix();
         Ray ray = new Ray(new Tuple(0, 2, -5, 1), new Tuple(0, 0, 1, 0));
-        assertFalse(scene.intersect(sphere, ray));
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 0);
     }
 
     @Test
     void rayInsideSphere() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
-        MatrixOperations mo = new MatrixOperations();
-        double[][] identity = mo.identityMatrix();
         Ray ray = new Ray(new Tuple(0, 0, 0, 1), new Tuple(0, 0, 1, 0));
-        assertTrue(scene.intersect(sphere, ray));
-        assertEquals(scene.getShapes().get(0).getTime(), -1.0);
-        assertEquals(scene.getShapes().get(1).getTime(), 1.0);
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 2);
+        assertEquals(xs.get(0).getTime(), -1.0);
+        assertEquals(xs.get(1).getTime(), 1.0);
     }
 
     @Test
     void sphereBehindRay() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
-        MatrixOperations mo = new MatrixOperations();
-        double[][] identity = mo.identityMatrix();
         Ray ray = new Ray(new Tuple(0, 0, 5, 1), new Tuple(0, 0, 1, 0));
-        assertTrue(scene.intersect(sphere, ray));
-        assertEquals(scene.getShapes().get(0).getTime(), -6);
-        assertEquals(scene.getShapes().get(1).getTime(), -4);
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 2);
+        assertEquals(xs.get(0).getTime(), -6.0);
+        assertEquals(xs.get(1).getTime(), -4.0);
     }
 
     @Test
@@ -90,12 +85,10 @@ public class SphereTest {
     void setObjectIntersection() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
-        MatrixOperations mo = new MatrixOperations();
-        double[][] identity = mo.identityMatrix();
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
-        assertTrue(scene.intersect(sphere, ray));
-        assertEquals(scene.getShapes().get(0).getShape().getClass(), Sphere.class);
-        assertEquals(scene.getShapes().get(1).getShape().getClass(), Sphere.class);
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.get(0).getShape().getClass(), Sphere.class);
+        assertEquals(xs.get(1).getShape().getClass(), Sphere.class);
     }
 
     @Test
@@ -184,26 +177,27 @@ public class SphereTest {
     }
 
     @Test
-    void intersectScaledSphere1() {
+    void intersectScaledSphere() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         MatrixOperations mo = new MatrixOperations();
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         double[][] t = mo.scaling(2, 2, 2);
         sphere.setTransform(t);
-        assertTrue(scene.intersect(sphere, ray));
-        List<Intersection> xs = scene.getShapes();
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 2);
         assertEquals(xs.get(0).getTime(), 3);
         assertEquals(xs.get(1).getTime(), 7);
     }
 
     @Test
-    void intersectScaledSphere2() {
+    void intersectTransformedSphere() {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         MatrixOperations mo = new MatrixOperations();
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         sphere.setTransform(mo.translation(5, 0, 0));
-        assertFalse(scene.intersect(sphere, ray));
+        List<Intersection> xs = scene.intersect(sphere, ray);
+        assertEquals(xs.size(), 0);
     }
 }

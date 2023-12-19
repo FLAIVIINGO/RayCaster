@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 public class Scene {
 
-    private List<Intersection> shapes;
+    // private List<Intersection> shapes;
 
     public Scene() {
-        shapes = new ArrayList<>();
+        // shapes = new ArrayList<>();
     }
 
     /*public double[] intersect(Shape3D shape, Ray ray) {
@@ -34,7 +34,7 @@ public class Scene {
         System.out.println("x: "+ray.getDirection().getX()+"y: "+ray.getDirection().getY()+"z: "+ray.getDirection().getZ());
     }
 
-    public boolean intersect(Shape3D shape, Ray ray) {
+    public List<Intersection> intersect(Shape3D shape, Ray ray) {
         // transform ray before calculation
         MatrixOperations matrixOperations = new MatrixOperations();
         double[][] transform = matrixOperations.inverse(shape.getTransform(), matrixOperations.determinant(shape.getTransform()));
@@ -49,14 +49,13 @@ public class Scene {
         double discriminant = b * b - 4 * a * c;
 
         if(discriminant < 0) {
-            return false;
+            return new ArrayList<>();
         }
         double t1 = (-b-Math.sqrt(discriminant)) / (2 * a);
         double t2 = (-b+Math.sqrt(discriminant)) / (2 * a);
         Intersection i1 = new Intersection(t1, shape);
         Intersection i2 = new Intersection(t2, shape);
-        this.addIntersections(i1, i2);
-        return true;
+        return new ArrayList<>(Arrays.asList(i1, i2));
     }
 
     public List<Intersection> intersections(Intersection... intersections) {
@@ -67,14 +66,6 @@ public class Scene {
         // p1 = ray origin
         // p2 = sphere center (0, 0, 0)
         return new Tuple(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ(), 0);
-    }
-
-    private void addIntersections(Intersection... intersections) {
-        this.shapes.addAll(Arrays.asList(intersections));
-    }
-
-    public List<Intersection> getShapes() {
-        return this.shapes;
     }
 
     public Intersection hit(List<Intersection> xs) {
@@ -99,4 +90,5 @@ public class Scene {
         Tuple dir = mo.multiplyMatrixByTuple(matrix, ray.getDirection());
         return new Ray(org, dir);
     }
+
 }
