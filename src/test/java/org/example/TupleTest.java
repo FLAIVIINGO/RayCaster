@@ -42,9 +42,9 @@ class TupleTest {
 
     @Test
     void addTwoVectors() {
-        Vector v1 = new Vector(3, -2, 5);
-        Vector v2 = new Vector(-2, 3, 1);
-        Vector res = v1.add(v2);
+        Tuple v1 = new Tuple(3, -2, 5, 0);
+        Tuple v2 = new Tuple(-2, 3, 1, 0);
+        Tuple res = v1.add(v2);
         assertEquals(res.getX(), 1);
         assertEquals(res.getY(), 1);
         assertEquals(res.getZ(), 6);

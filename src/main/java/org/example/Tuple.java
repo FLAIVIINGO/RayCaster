@@ -17,6 +17,10 @@ public class Tuple {
         this.w = w;
     }
 
+    public void printTuple() {
+        System.out.println("x: "+this.x+" y: "+this.y+" z: "+this.z+" w: "+this.w);
+    }
+
     public Tuple add(Tuple p) {return new Tuple(p.x + this.x, p.y + this.y, p.z + this.z, p.w + this.w);}
 
     public Tuple subtract(Tuple t) {return new Tuple(this.x - t.x, this.y - t.y, this.z - t.z, this.w - t.w);}
@@ -25,11 +29,13 @@ public class Tuple {
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) + Math.pow(this.w, 2));
     }
 
-    public void normal() {
-        this.x = this.x / this.magnitude();
-        this.y = this.y / this.magnitude();
-        this.z = this.z / this.magnitude();
-        this.w = this.w / this.magnitude();
+    public Tuple normal() {
+        return new Tuple(
+                this.x / this.magnitude(),
+                this.y / this.magnitude(),
+                this.z / this.magnitude(),
+                this.w / this.magnitude()
+        );
     }
 
     public double dotProduct(Tuple a) {

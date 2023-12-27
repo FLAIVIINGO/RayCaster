@@ -200,4 +200,53 @@ public class SphereTest {
         List<Intersection> xs = scene.intersect(sphere, ray);
         assertEquals(xs.size(), 0);
     }
+
+    @Test
+    void normalSpherePointX() {
+        Sphere sphere = new Sphere();
+        Tuple n = sphere.normalAt(sphere, new Tuple(1, 0, 0, 1));
+        assertTrue(n.equalTuples(new Tuple(1, 0, 0, 0)));
+    }
+
+    @Test
+    void normalSpherePointY() {
+        Sphere sphere = new Sphere();
+        Tuple n = sphere.normalAt(sphere, new Tuple(0, 1, 0, 1));
+        assertTrue(n.equalTuples(new Tuple(0, 1, 0, 0)));
+    }
+
+    @Test
+    void normalSpherePointZ() {
+        Sphere sphere = new Sphere();
+        Tuple n = sphere.normalAt(sphere, new Tuple(0, 0, 1, 1));
+        assertTrue(n.equalTuples(new Tuple(0, 0, 1, 0)));
+    }
+
+    @Test
+    void normalSphereNonAxialPoint() {
+        Sphere sphere = new Sphere();
+        Tuple n = sphere.normalAt(sphere, new Tuple(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3, 1));
+        assertTrue(n.equalTuples(new Tuple(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3, 0)));
+    }
+
+    @Test
+    void computeNormalOnTranslatedSphere() {
+        MatrixOperations mo = new MatrixOperations();
+        Sphere sphere = new Sphere();
+        sphere.setTransform(mo.translation(0, 1, 0));
+        Tuple n = sphere.normalAt(sphere, new Tuple(0, 1.70711, -0.70711, 1));
+        assertTrue(n.equalTuples(new Tuple(0, 0.70711, -0.70711, 0)));
+    }
+
+    @Test
+    void computerNormalOnTransformedSphere() {
+        MatrixOperations mo = new MatrixOperations();
+        Sphere sphere = new Sphere();
+        double[][] scaling = mo.scaling(1, 0.5, 1);
+        double[][] rotation = mo.rotationZ(Math.PI/5);
+        double[][] transform = mo.multiplyMatrices(scaling, rotation);
+        sphere.setTransform(transform);
+        Tuple n = sphere.normalAt(sphere, new Tuple(0, Math.sqrt(2)/2, -Math.sqrt(2)/2, 1));
+        assertTrue(n.equalTuples(new Tuple(0, 0.97014, -0.24254, 0)));
+    }
 }

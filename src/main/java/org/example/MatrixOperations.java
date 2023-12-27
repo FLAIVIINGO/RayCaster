@@ -5,6 +5,15 @@ import java.math.RoundingMode;
 
 public class MatrixOperations {
 
+    public void printMatrix(double[][] m) {
+        for(int i = 0; i < m.length; i++) {
+            for(int j = 0; j < m.length; j++) {
+                System.out.print(m[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+
     public boolean equal(double a, double b) {
         double EPSILON = 0.00001;
         return Math.abs(a - b) < EPSILON;
@@ -49,6 +58,7 @@ public class MatrixOperations {
     public Tuple multiplyMatrixByTuple(double[][] matrix, Tuple tuple) {
         Tuple result = new Tuple();
         for(int i = 0; i < matrix.length; i++) {
+            // System.out.println("iteration: "+i+" ");
             result.setAtIndex(i, multiplyTupleMatrixCell(tuple, matrix, i));
         }
         return result;
@@ -57,8 +67,12 @@ public class MatrixOperations {
     private double multiplyTupleMatrixCell(Tuple tuple, double[][] matrix, int row) {
         double cell = 0;
         for(int i = 0; i < matrix.length; i++) {
+            // System.out.println("matrix["+row+"]["+i+"] = "+matrix[row][i]);
+            // System.out.println("tuple at index "+i+" = "+tuple.getAtIndex(i));
+            // System.out.println("and their product = "+matrix[row][i]*tuple.getAtIndex(i));
             cell += matrix[row][i] * tuple.getAtIndex(i);
         }
+        // System.out.println("total amount for cell: "+cell);
         return cell;
     }
 
