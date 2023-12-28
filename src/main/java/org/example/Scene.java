@@ -91,4 +91,44 @@ public class Scene {
         return new Ray(org, dir);
     }
 
+    public Tuple reflect(Tuple in, Tuple normal) {
+        Tuple r1 = normal.multiplyScalar(2);
+        double dot = in.dotProduct(normal);
+        Tuple r2 = r1.multiplyScalar(dot);
+        return in.subtract(r2);
+    }
+
+    public Color lighting(Material material, Tuple point, Light source, Tuple eyev, Tuple normalv) {
+        Color effectiveColor = material.getColor().hadamardProduct(source.getIntensity());
+        Tuple lv = source.getPosition().subtract(point);
+        Tuple lightv = lv.normal();
+        Color ambient = effectiveColor.scalarColor(material.getAmbient());
+        double lightDotNormal = lightv.dotProduct(normalv);
+        Color diffuse;
+        Color specular;
+        Tuple reflectv;
+        double reflectDotEye;
+        if(lightDotNormal < 0) {
+            diffuse = new Color(0, 0, 0);
+            specular = new Color(0, 0, 0);
+        }
+        else {
+            Color diff = effectiveColor.scalarColor(material.getDiffuse());
+            diffuse = diff.scalarColor(lightDotNormal);
+            lightv.negate();
+            reflectv = reflect(lightv, normalv);
+            reflectDotEye = reflectv.dotProduct(eyev);
+            if(reflectDotEye <= 0) {
+                specular = new Color(0, 0, 0);
+            }
+            else {
+                double factor = Math.pow(reflectDotEye, material.getShininess());
+                Color spec = source.getIntensity().scalarColor(material.getSpecular());
+                specular = spec.scalarColor(factor);
+            }
+        }
+        Color res = ambient.addColors(diffuse);
+        return res.addColors(specular);
+    }
+
 }

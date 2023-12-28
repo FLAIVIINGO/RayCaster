@@ -10,12 +10,15 @@ public class Sphere extends Shape3D{
     private Tuple origin;
     private double radius;
 
+    private Material material;
+
     private double[][] transform;
 
     public Sphere() {
         this.id = UUID.randomUUID();
         this.origin = new Tuple(0, 0, 0, 1);
         this.radius = 1;
+        this.material = new Material();
         this.transform = mo.identityMatrix();
     }
 
@@ -27,6 +30,17 @@ public class Sphere extends Shape3D{
 
     public double[][] getTransform() {
         return this.transform;
+    }
+
+    public Material getMaterial() {
+        return this.material;
+    }
+
+    public void setMaterial(double ambient, double diffuse, double specular, double shininess) {
+        this.material.setAmbient(ambient);
+        this.material.setDiffuse(diffuse);
+        this.material.setSpecular(specular);
+        this.material.setShininess(shininess);
     }
 
     public Tuple normalAt(Sphere s, Tuple wp) {

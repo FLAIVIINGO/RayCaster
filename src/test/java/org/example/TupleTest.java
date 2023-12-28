@@ -142,10 +142,10 @@ class TupleTest {
     void testNormalization() {
         TupleCreation tp = new TupleCreation();
         Tuple v = tp.vector(4, 0, 0);
-        v.normal();
-        assertEquals(v.getX(), 1);
-        assertEquals(v.getY(), 0);
-        assertEquals(v.getZ(), 0);
+        Tuple v_norm = v.normal();
+        assertEquals(v_norm.getX(), 1);
+        assertEquals(v_norm.getY(), 0);
+        assertEquals(v_norm.getZ(), 0);
     }
 
     @Test
@@ -203,9 +203,9 @@ class TupleTest {
     void scalarColorTest() {
         Color c = new Color(0.2, 0.3, 0.4);
         double scalar = 2;
-        c.scalarColor(scalar);
+        Color c_scaled = c.scalarColor(scalar);
         Color test = new Color(0.4, 0.6, 0.8);
-        assertTrue(c.equalColors(test));
+        assertTrue(c_scaled.equalColors(test));
     }
 
     @Test

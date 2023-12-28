@@ -25,6 +25,10 @@ public class Ray {
         return p;
     }
 
+    public void normalizeDirection() {
+        this.direction = direction.normal();
+    }
+
     public double dotProduct(Tuple vector) {
         return this.direction.dotProduct(vector);
     }

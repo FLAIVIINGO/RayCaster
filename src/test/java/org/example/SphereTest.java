@@ -239,7 +239,7 @@ public class SphereTest {
     }
 
     @Test
-    void computerNormalOnTransformedSphere() {
+    void computeNormalOnTransformedSphere() {
         MatrixOperations mo = new MatrixOperations();
         Sphere sphere = new Sphere();
         double[][] scaling = mo.scaling(1, 0.5, 1);
@@ -248,5 +248,40 @@ public class SphereTest {
         sphere.setTransform(transform);
         Tuple n = sphere.normalAt(sphere, new Tuple(0, Math.sqrt(2)/2, -Math.sqrt(2)/2, 1));
         assertTrue(n.equalTuples(new Tuple(0, 0.97014, -0.24254, 0)));
+    }
+
+    @Test
+    void reflectTest1() {
+        Scene scene = new Scene();
+        Tuple v = new Tuple(1, -1, 0, 0);
+        Tuple n = new Tuple(0, 1, 0, 0);
+        Tuple r = scene.reflect(v, n);
+        assertTrue(r.equalTuples(new Tuple(1, 1, 0, 0)));
+    }
+
+    @Test
+    void reflectTest2() {
+        Scene scene = new Scene();
+        Tuple v = new Tuple(0, -1, 0, 0);
+        Tuple n = new Tuple(Math.sqrt(2)/2, Math.sqrt(2)/2, 0, 0);
+        Tuple r = scene.reflect(v, n);
+        assertTrue(r.equalTuples(new Tuple(1, 0, 0, 0)));
+    }
+
+    @Test
+    void pointLightTest() {
+        Light light = new Light(new Color(1, 1, 1), new Tuple(0, 0, 0, 1));
+        assertTrue(light.getIntensity().equalColors(new Color(1, 1, 1)));
+        assertTrue(light.getPosition().equalTuples(new Tuple(0, 0, 0, 1)));
+    }
+
+    @Test
+    void materialTest() {
+        Material material = new Material();
+        assertTrue(material.getColor().equalColors(new Color(1, 1 ,1)));
+        assertEquals(0.1, material.getAmbient());
+        assertEquals(0.9, material.getDiffuse());
+        assertEquals(0.9, material.getSpecular());
+        assertEquals(200.0, material.getShininess());
     }
 }

@@ -30,10 +30,12 @@ public class Color {
         return new Color(this.red - c.red, this.green - c.green, this.blue - c.blue);
     }
 
-    public void scalarColor(double scalar) {
-        this.red *= scalar;
-        this.green *= scalar;
-        this.blue *= scalar;
+    public Color scalarColor(double scalar) {
+        return new Color(
+                this.red * scalar,
+                this.green * scalar,
+                this.blue * scalar
+        );
     }
 
     public Color hadamardProduct(Color c) {

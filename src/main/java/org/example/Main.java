@@ -21,9 +21,9 @@ public class Main {
         // put the wall at z = 10
         double wallZ = 10;
         // canvasPixels
-        int canvasPixels = 100;
+        int canvasPixels = 500;
         // wall size = 7.0
-        double wallSize = 7.0;
+        double wallSize = 35.0;
         // pixel size
         double pixelSize = wallSize / canvasPixels;
         // half
@@ -31,8 +31,10 @@ public class Main {
         Canvas canvas = new Canvas(canvasPixels, canvasPixels);
         Color color = new Color(1, 0 , 0);
         Shape3D sphere = new Sphere();
-        double[][] transform = mo.multiplyMatrices(mo.shearing(1, 0, 0, 0, 0, 0), mo.scaling(0.5, 1, 1));
-        sphere.setTransform(transform);
+        sphere.material.setColor(new Color(1, 0.2, 1));
+        Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
+        // double[][] transform = mo.multiplyMatrices(mo.shearing(1, 0, 0, 0, 0, 0), mo.scaling(0.5, 1, 1));
+        // sphere.setTransform(transform);
         for(int y = 0; y < canvas.getWidth(); y++) {
             double worldY = half - pixelSize * y;
             for(int x = 0; x < canvas.getWidth(); x++) {
@@ -41,8 +43,15 @@ public class Main {
                 Tuple t = position.subtract(rayOrigin);
                 t.normal();
                 Ray r = new Ray(rayOrigin, t);
+                r.normalizeDirection();
                 List<Intersection> xs = scene.intersect(sphere, r);
                 if(scene.hit(xs) != null) {
+                    Tuple point = r.position(r, xs.get(0).getTime());
+                    Tuple normal = sphere.normalAt((Sphere)sphere, point);
+                    Tuple negateR = r.getDirection();
+                    negateR.negate();
+                    Tuple eye = negateR;
+                    color = scene.lighting(sphere.getMaterial(), point, light, eye, normal);
                     canvas.setPixel(x, y, color);
                 }
             }
