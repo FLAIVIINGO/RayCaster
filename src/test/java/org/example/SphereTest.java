@@ -276,12 +276,37 @@ public class SphereTest {
     }
 
     @Test
-    void materialTest() {
+    void materialTest1() {
         Material material = new Material();
         assertTrue(material.getColor().equalColors(new Color(1, 1 ,1)));
         assertEquals(0.1, material.getAmbient());
         assertEquals(0.9, material.getDiffuse());
         assertEquals(0.9, material.getSpecular());
         assertEquals(200.0, material.getShininess());
+    }
+
+    @Test
+    void materialTest2() {
+        Sphere s = new Sphere();
+        Material m = s.getMaterial();
+        assertTrue(m.getColor().equalColors(new Color(1, 1 ,1)));
+        assertEquals(0.1, m.getAmbient());
+        assertEquals(0.9, m.getDiffuse());
+        assertEquals(0.9, m.getSpecular());
+        assertEquals(200.0, m.getShininess());
+    }
+
+    @Test
+    void assignSphereMaterial() {
+        Sphere s = new Sphere();
+        Material newM = new Material();
+        newM.setAmbient(1);
+        s.setMaterial(newM.getAmbient(), newM.getDiffuse(), newM.getSpecular(), newM.getShininess());
+        Material m = s.getMaterial();
+        assertTrue(m.getColor().equalColors(new Color(1, 1 ,1)));
+        assertEquals(1, m.getAmbient());
+        assertEquals(0.9, m.getDiffuse());
+        assertEquals(0.9, m.getSpecular());
+        assertEquals(200.0, m.getShininess());
     }
 }
