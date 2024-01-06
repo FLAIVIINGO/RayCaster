@@ -18,6 +18,7 @@ public class Ray {
         return this.direction;
     }
 
+
     public Tuple position(Ray ray, double t) {
         Tuple p = new Tuple(this.origin.getX(), this.origin.getY(), this.origin.getZ(), 1);
         Tuple v = this.direction.multiplyScalar(t);
@@ -26,7 +27,7 @@ public class Ray {
     }
 
     public void normalizeDirection() {
-        this.direction = direction.normal();
+        this.direction = this.direction.normal();
     }
 
     public double dotProduct(Tuple vector) {

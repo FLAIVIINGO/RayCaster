@@ -21,9 +21,9 @@ public class Main {
         // put the wall at z = 10
         double wallZ = 10;
         // canvasPixels
-        int canvasPixels = 500;
+        int canvasPixels = 100;
         // wall size = 7.0
-        double wallSize = 35.0;
+        double wallSize = 7.0;
         // pixel size
         double pixelSize = wallSize / canvasPixels;
         // half
@@ -31,12 +31,12 @@ public class Main {
         Canvas canvas = new Canvas(canvasPixels, canvasPixels);
         // Color color = new Color(1, 0 , 0);
         Shape3D sphere = new Sphere();
-        sphere.material.setColor(new Color(1, 0.2, 1));
+        sphere.getMaterial().setColor(new Color(1, 0.2, 1));
         Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
         // double[][] transform = mo.multiplyMatrices(mo.shearing(1, 0, 0, 0, 0, 0), mo.scaling(0.5, 1, 1));
         // sphere.setTransform(transform);
-        double[][] transform = mo.scaling(3, 3, 3);
-        sphere.setTransform(transform);
+        // double[][] transform = mo.scaling(3, 3, 3);
+        // sphere.setTransform(transform);
         for(int y = 0; y < canvas.getWidth(); y++) {
             double worldY = half - pixelSize * y;
             for(int x = 0; x < canvas.getWidth(); x++) {

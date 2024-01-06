@@ -38,7 +38,9 @@ public class Material {
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        this.color.setRed(color.getRed());
+        this.color.setGreen(color.getGreen());
+        this.color.setBlue(color.getBlue());
     }
 
     public double getAmbient() {
@@ -56,4 +58,6 @@ public class Material {
     public double getShininess() {
         return shininess;
     }
+
+
 }
