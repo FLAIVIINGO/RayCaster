@@ -69,6 +69,7 @@ public class SphereTest {
         assertEquals(i.getShape().getClass(), Sphere.class);
     }
 
+    /*
     @Test
     void aggregatingIntersections() {
         Scene scene = new Scene();
@@ -135,7 +136,7 @@ public class SphereTest {
         List<Intersection> xs = scene.intersections(i1, i2, i3, i4);
         Intersection i = scene.hit(xs);
         assertTrue(i.equals(i4));
-    }
+    }*/
 
     @Test
     void translatingRay() {

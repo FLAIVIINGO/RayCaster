@@ -26,6 +26,14 @@ public class Sphere extends Shape3D{
         return this.id;
     }
 
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return this.radius;
+    }
+
     public void setTransform(double[][] transform) { this.transform = transform; }
 
     public double[][] getTransform() {

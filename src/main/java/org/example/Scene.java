@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 public class Scene {
 
-    // private List<Intersection> shapes;
+
 
     public Scene() {
-        // shapes = new ArrayList<>();
+
     }
 
     /*public double[] intersect(Shape3D shape, Ray ray) {
@@ -53,13 +53,32 @@ public class Scene {
         }
         double t1 = (-b-Math.sqrt(discriminant)) / (2 * a);
         double t2 = (-b+Math.sqrt(discriminant)) / (2 * a);
+
+
         Intersection i1 = new Intersection(t1, shape);
         Intersection i2 = new Intersection(t2, shape);
         return new ArrayList<>(Arrays.asList(i1, i2));
     }
 
-    public List<Intersection> intersections(Intersection... intersections) {
-        return Arrays.asList(intersections);
+    public List<Intersection> intersections(List<List<Intersection>> intersectionGroups) {
+        List<Intersection> aggregatedIntersections = new ArrayList<>();
+
+        for (List<Intersection> group : intersectionGroups) {
+            aggregatedIntersections.addAll(group);
+        }
+
+        aggregatedIntersections.sort((i1, i2) -> Double.compare(i1.getTime(), i2.getTime()));
+
+        return aggregatedIntersections;
+    }
+
+    public List<Intersection> intersectWorld(World w, Ray ray) {
+        List<Intersection> xs = new ArrayList<>();
+        for (Shape3D shape : w.getObjects()) {
+            xs.addAll(intersect(shape, ray));
+        }
+        xs.sort((i1, i2) -> Double.compare(i1.getTime(), i2.getTime()));
+        return xs;
     }
 
     private Tuple calculateVectorToCenter(Tuple p1, Tuple p2) {

@@ -35,6 +35,14 @@ public abstract class Shape3D {
         return this.material;
     }
 
+    public double getRadius() {
+        return this.radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
     public void setMaterial(double ambient, double diffuse, double specular, double shininess) {
         this.material.setAmbient(ambient);
         this.material.setDiffuse(diffuse);
