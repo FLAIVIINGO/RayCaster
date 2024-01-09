@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WorldTest {
     @Test
@@ -29,6 +28,7 @@ public class WorldTest {
         assertEquals(world.getObjects().size(), 2);
     }
 
+    // Finish Test
     @Test
     void intersectWorldTest() {
         /*
@@ -49,11 +49,41 @@ public class WorldTest {
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         scene.intersectWorld(world, ray);
         List<Intersection> xs = scene.intersectWorld(world, ray);
+        assertEquals(xs.get(0).getTime(), 4);
+        assertEquals(xs.get(1).getTime(), 4.5);
+        assertEquals(xs.get(2).getTime(), 5.5);
+        assertEquals(xs.get(3).getTime(), 6);
+    }
 
-        int cnt = 0;
-        for(Intersection i : xs) {
-            System.out.println(cnt+": "+i.getTime());
-            cnt++;
-        }
+    @Test
+    void computationTest1() {
+        Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
+        Shape3D shape = new Sphere();
+        Intersection intersection = new Intersection(4, shape);
+        Computations computations = new Computations(intersection, r);
+        assertTrue(computations.getPoint().equalTuples(new Tuple(0, 0, -1, 1)));
+        assertTrue(computations.getEyev().equalTuples(new Tuple(0, 0, -1, 0)));
+        assertTrue(computations.getNormalv().equalTuples(new Tuple(0, 0, -1, 0)));
+    }
+
+    @Test
+    void computationTest2() {
+        Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
+        Shape3D shape = new Sphere();
+        Intersection intersection = new Intersection(4, shape);
+        Computations computations = new Computations(intersection, r);
+        assertFalse(computations.getInside());
+    }
+
+    @Test
+    void computationTest3() {
+        Ray r = new Ray(new Tuple(0, 0, 0, 1), new Tuple(0, 0, 1, 0));
+        Shape3D shape = new Sphere();
+        Intersection intersection = new Intersection(1, shape);
+        Computations computations = new Computations(intersection, r);
+        assertTrue(computations.getPoint().equalTuples(new Tuple(0, 0, 1, 1)));
+        assertTrue(computations.getEyev().equalTuples(new Tuple(0, 0, -1, 0)));
+        assertTrue(computations.getInside());
+        assertTrue(computations.getNormalv().equalTuples(new Tuple(0, 0, -1, 0)));
     }
 }
