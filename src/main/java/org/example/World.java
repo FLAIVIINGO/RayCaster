@@ -33,6 +33,11 @@ public class World {
         return this.objects.get(index);
     }
 
+    public Color shadeHit(World world, Computations computations) {
+        Scene scene = new Scene();
+        return scene.lighting(computations.getShape().getMaterial(), computations.getPoint(), world.getLight(), computations.getEyev(), computations.getNormalv());
+    }
+
     // public List<Intersection> intersectWorld(Ray ray) {
 
     // }

@@ -11,6 +11,10 @@ public class Color {
         this.blue = blue;
     }
 
+    public void printColor() {
+        System.out.println("red: "+this.getRed()+" green: "+this.getGreen()+" blue: "+this.getBlue());
+    }
+
     public boolean equal(double a, double b) {
         double EPSILON = 0.00001;
         return Math.abs(a - b) < EPSILON;

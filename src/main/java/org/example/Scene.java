@@ -118,20 +118,40 @@ public class Scene {
     }
 
     public Color lighting(Material material, Tuple point, Light source, Tuple eyev, Tuple normalv) {
+        // System.out.println("point x: "+point.getX()+" point y: "+point.getY()+" point z: "+point.getZ());
+        // System.out.println("eyev x: "+eyev.getX()+" eyev y: "+eyev.getY()+" eyev vz: "+eyev.getZ());
+        System.out.println("normalv x: "+normalv.getX()+" normalv y: "+normalv.getY()+"normalv z: "+normalv.getZ());
+        // System.out.print("light pos ");
+        // source.getPosition().printTuple();
+        // source.getIntensity().printColor();
+        // material.getColor().printColor();
+
         Color effectiveColor = material.getColor().hadamardProduct(source.getIntensity());
+        System.out.println("Effective Color");
+        effectiveColor.printColor();
+        effectiveColor.printColor();
         Tuple lv = source.getPosition().subtract(point);
+        System.out.println("lv");
+        lv.printTuple();
         Tuple lightv = lv.normal();
+        System.out.println("lv normalized");
+        lv.printTuple();
         Color ambient = effectiveColor.scalarColor(material.getAmbient());
+        System.out.println("ambient color");
+        ambient.printColor();
         double lightDotNormal = lightv.dotProduct(normalv);
+        System.out.println("lightDotNormal: "+lightDotNormal);
         Color diffuse;
         Color specular;
         Tuple reflectv;
         double reflectDotEye;
         if(lightDotNormal < 0) {
+            System.out.println("lightDotNormal < 0");
             diffuse = new Color(0, 0, 0);
             specular = new Color(0, 0, 0);
         }
         else {
+            System.out.println("light dot >= 0");
             Color diff = effectiveColor.scalarColor(material.getDiffuse());
             diffuse = diff.scalarColor(lightDotNormal);
             lightv.negate();
@@ -147,6 +167,7 @@ public class Scene {
             }
         }
         Color res = ambient.addColors(diffuse);
+        System.out.println(res.getRed()+" "+res.getGreen()+" "+res.getBlue());
         return res.addColors(specular);
     }
 

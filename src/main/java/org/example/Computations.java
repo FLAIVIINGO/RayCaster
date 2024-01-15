@@ -49,4 +49,8 @@ public class Computations {
     public boolean getInside() {
         return this.inside;
     }
+
+    public Shape3D getShape() {
+        return this.object;
+    }
 }

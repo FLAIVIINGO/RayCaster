@@ -86,4 +86,22 @@ public class WorldTest {
         assertTrue(computations.getInside());
         assertTrue(computations.getNormalv().equalTuples(new Tuple(0, 0, -1, 0)));
     }
+
+    @Test
+    void shadeIntersectTest1() {
+        MatrixOperations mo = new MatrixOperations();
+        World world = new World();
+        Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
+        Sphere s1 = new Sphere();
+        s1.getMaterial().setColor(new Color(0.8, 1.0, 0.6));
+        world.setLight(light);
+        world.addShape(s1);
+        world.addShape(new Sphere());
+        Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
+        Intersection i = new Intersection(4, world.getShape(0));
+        Computations computations = new Computations(i, r);
+        Color color = world.shadeHit(world, computations);
+        System.out.println("red: "+color.getRed()+"\ngreen "+color.getGreen()+"\nblue "+color.getBlue());
+        color.equalColors(new Color(0.38066, 0.47583, 0.2855));
+    }
 }
