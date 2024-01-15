@@ -94,14 +94,17 @@ public class WorldTest {
         Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
         Sphere s1 = new Sphere();
         s1.getMaterial().setColor(new Color(0.8, 1.0, 0.6));
+        s1.getMaterial().setDiffuse(0.7);
+        s1.getMaterial().setSpecular(0.2);
         world.setLight(light);
         world.addShape(s1);
-        world.addShape(new Sphere());
+        Sphere s2 = new Sphere();
+        s2.setTransform(mo.scaling(0.5, 0.5, 0.5));
+        world.addShape(s2);
         Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         Intersection i = new Intersection(4, world.getShape(0));
         Computations computations = new Computations(i, r);
         Color color = world.shadeHit(world, computations);
-        System.out.println("red: "+color.getRed()+"\ngreen "+color.getGreen()+"\nblue "+color.getBlue());
-        color.equalColors(new Color(0.38066, 0.47583, 0.2855));
+        assertTrue(color.equalColors(new Color(0.38066, 0.47583, 0.2855)));
     }
 }

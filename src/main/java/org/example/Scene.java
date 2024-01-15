@@ -118,24 +118,16 @@ public class Scene {
     }
 
     public Color lighting(Material material, Tuple point, Light source, Tuple eyev, Tuple normalv) {
-        // System.out.println("point x: "+point.getX()+" point y: "+point.getY()+" point z: "+point.getZ());
-        // System.out.println("eyev x: "+eyev.getX()+" eyev y: "+eyev.getY()+" eyev vz: "+eyev.getZ());
-        System.out.println("normalv x: "+normalv.getX()+" normalv y: "+normalv.getY()+"normalv z: "+normalv.getZ());
-        // System.out.print("light pos ");
-        // source.getPosition().printTuple();
-        // source.getIntensity().printColor();
-        // material.getColor().printColor();
 
         Color effectiveColor = material.getColor().hadamardProduct(source.getIntensity());
         System.out.println("Effective Color");
-        effectiveColor.printColor();
         effectiveColor.printColor();
         Tuple lv = source.getPosition().subtract(point);
         System.out.println("lv");
         lv.printTuple();
         Tuple lightv = lv.normal();
         System.out.println("lv normalized");
-        lv.printTuple();
+        lightv.printTuple();
         Color ambient = effectiveColor.scalarColor(material.getAmbient());
         System.out.println("ambient color");
         ambient.printColor();
@@ -153,10 +145,19 @@ public class Scene {
         else {
             System.out.println("light dot >= 0");
             Color diff = effectiveColor.scalarColor(material.getDiffuse());
+            System.out.println("Diffuse");
+            diff.printColor();
             diffuse = diff.scalarColor(lightDotNormal);
+            System.out.println("diffuse scaled color");
+            diffuse.printColor();
             lightv.negate();
+            System.out.println("light v negated");
+            lightv.printTuple();
             reflectv = reflect(lightv, normalv);
+            System.out.println("reflect v");
+            reflectv.printTuple();
             reflectDotEye = reflectv.dotProduct(eyev);
+            System.out.println("reflect dot eye\n"+reflectDotEye);
             if(reflectDotEye <= 0) {
                 specular = new Color(0, 0, 0);
             }
