@@ -90,6 +90,7 @@ public class WorldTest {
     @Test
     void shadeIntersectTest1() {
         MatrixOperations mo = new MatrixOperations();
+        Scene scene = new Scene();
         World world = new World();
         Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
         Sphere s1 = new Sphere();
@@ -104,7 +105,78 @@ public class WorldTest {
         Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         Intersection i = new Intersection(4, world.getShape(0));
         Computations computations = new Computations(i, r);
-        Color color = world.shadeHit(world, computations);
+        Color color = scene.shadeHit(world, computations);
         assertTrue(color.equalColors(new Color(0.38066, 0.47583, 0.2855)));
+    }
+
+    @Test
+    void shadeIntersectTest2() {
+        MatrixOperations mo = new MatrixOperations();
+        Scene scene = new Scene();
+        World world = new World();
+        world.setLight(new Light(new Color(1, 1, 1), new Tuple(0, 0.25, 0, 1)));
+        Sphere s1 = new Sphere();
+        s1.getMaterial().setColor(new Color(0.8, 1.0, 0.6));
+        s1.getMaterial().setDiffuse(0.7);
+        s1.getMaterial().setSpecular(0.2);
+        world.addShape(s1);
+        Sphere s2 = new Sphere();
+        s2.setTransform(mo.scaling(0.5, 0.5, 0.5));
+        world.addShape(s2);
+        Ray r = new Ray(new Tuple(0, 0, 0, 1), new Tuple(0, 0, 1, 0));
+        Intersection i = new Intersection(0.5, world.getShape(1));
+        Computations comps = new Computations(i, r);
+        Color c = scene.shadeHit(world, comps);
+        assertTrue(c.equalColors(new Color(0.90498, 0.90498, 0.90498)));
+    }
+
+    @Test
+    void colorAtTest1() {
+        Scene scene = new Scene();
+        World world = new World();
+        Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 1, 0, 0));
+        Color c = scene.colorAt(world, r);
+    }
+
+    @Test
+    void colorAtTest2() {
+        MatrixOperations mo = new MatrixOperations();
+        Scene scene = new Scene();
+        World world = new World();
+        Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
+        Sphere s1 = new Sphere();
+        s1.getMaterial().setColor(new Color(0.8, 1.0, 0.6));
+        s1.getMaterial().setDiffuse(0.7);
+        s1.getMaterial().setSpecular(0.2);
+        world.setLight(light);
+        world.addShape(s1);
+        Sphere s2 = new Sphere();
+        s2.setTransform(mo.scaling(0.5, 0.5, 0.5));
+        world.addShape(s2);
+        Ray r = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
+        Color c = scene.colorAt(world, r);
+        assertTrue(c.equalColors(new Color(0.38066, 0.47583, 0.2855)));
+    }
+
+    @Test
+    void colorAtTest3() {
+        MatrixOperations mo = new MatrixOperations();
+        Scene scene = new Scene();
+        World world = new World();
+        Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
+        Sphere s1 = new Sphere();
+        s1.getMaterial().setColor(new Color(0.8, 1.0, 0.6));
+        s1.getMaterial().setDiffuse(0.7);
+        s1.getMaterial().setSpecular(0.2);
+        world.setLight(light);
+        Sphere s2 = new Sphere();
+        s2.setTransform(mo.scaling(0.5, 0.5, 0.5));
+        s2.getMaterial().setAmbient(1);
+        s1.getMaterial().setAmbient(1);
+        world.addShape(s2);
+        world.addShape(s1);
+        Ray ray = new Ray(new Tuple(0, 0, 0.75, 1), new Tuple(0, 0, -1, 0));
+        Color c = scene.colorAt(world, ray);
+        assertTrue(c.equalColors(new Color(1, 1, 1)));
     }
 }

@@ -120,44 +120,33 @@ public class Scene {
     public Color lighting(Material material, Tuple point, Light source, Tuple eyev, Tuple normalv) {
 
         Color effectiveColor = material.getColor().hadamardProduct(source.getIntensity());
-        System.out.println("Effective Color");
-        effectiveColor.printColor();
         Tuple lv = source.getPosition().subtract(point);
-        System.out.println("lv");
-        lv.printTuple();
+
         Tuple lightv = lv.normal();
-        System.out.println("lv normalized");
-        lightv.printTuple();
+
         Color ambient = effectiveColor.scalarColor(material.getAmbient());
-        System.out.println("ambient color");
-        ambient.printColor();
+
         double lightDotNormal = lightv.dotProduct(normalv);
-        System.out.println("lightDotNormal: "+lightDotNormal);
+
         Color diffuse;
         Color specular;
         Tuple reflectv;
         double reflectDotEye;
         if(lightDotNormal < 0) {
-            System.out.println("lightDotNormal < 0");
             diffuse = new Color(0, 0, 0);
             specular = new Color(0, 0, 0);
         }
         else {
-            System.out.println("light dot >= 0");
             Color diff = effectiveColor.scalarColor(material.getDiffuse());
-            System.out.println("Diffuse");
-            diff.printColor();
+
             diffuse = diff.scalarColor(lightDotNormal);
-            System.out.println("diffuse scaled color");
-            diffuse.printColor();
+
             lightv.negate();
-            System.out.println("light v negated");
-            lightv.printTuple();
+
             reflectv = reflect(lightv, normalv);
-            System.out.println("reflect v");
-            reflectv.printTuple();
+
             reflectDotEye = reflectv.dotProduct(eyev);
-            System.out.println("reflect dot eye\n"+reflectDotEye);
+
             if(reflectDotEye <= 0) {
                 specular = new Color(0, 0, 0);
             }
@@ -168,8 +157,22 @@ public class Scene {
             }
         }
         Color res = ambient.addColors(diffuse);
-        System.out.println(res.getRed()+" "+res.getGreen()+" "+res.getBlue());
+
         return res.addColors(specular);
+    }
+
+    public Color shadeHit(World world, Computations computations) {
+        return lighting(computations.getShape().getMaterial(), computations.getPoint(), world.getLight(), computations.getEyev(), computations.getNormalv());
+    }
+
+    public Color colorAt(World world, Ray ray) {
+        List<Intersection> xs = intersectWorld(world, ray);
+        if(xs.isEmpty()) {
+            return new Color(0, 0, 0);
+        }
+        Intersection i = hit(xs);
+        Computations comps = new Computations(i, ray);
+        return shadeHit(world, comps);
     }
 
 }
