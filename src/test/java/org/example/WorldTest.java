@@ -179,4 +179,64 @@ public class WorldTest {
         Color c = scene.colorAt(world, ray);
         assertTrue(c.equalColors(new Color(1, 1, 1)));
     }
+
+    @Test
+    void transformViewMatrixTest1() {
+        MatrixOperations mo = new MatrixOperations();
+        Tuple from = new Tuple(0, 0, 0, 1);
+        Tuple to = new Tuple(0, 0, -1, 1);
+        Tuple up = new Tuple(0, 1, 0, 0);
+        double[][] t = mo.viewTransform(from, to , up);
+        for(int i = 0; i < t.length; i++) {
+            for(int j = 0; j < t.length; j++) {
+                System.out.print(t[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    void transformViewMatrixTest2() {
+        MatrixOperations mo = new MatrixOperations();
+        Tuple from = new Tuple(0, 0, 0, 1);
+        Tuple to = new Tuple(0, 0, 1, 1);
+        Tuple up = new Tuple(0, 1, 0, 0);
+        double[][] t = mo.viewTransform(from , to, up);
+        for(int i = 0; i < t.length; i++) {
+            for(int j = 0; j < t.length; j++) {
+                System.out.print(t[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    void transformViewMatrixTest3() {
+        MatrixOperations mo = new MatrixOperations();
+        Tuple from = new Tuple(0, 0, 8, 1);
+        Tuple to = new Tuple(0, 0, 0, 1);
+        Tuple up = new Tuple(0, 1, 0, 0);
+        double[][] t = mo.viewTransform(from, to , up);
+        for(int i = 0; i < t.length; i++) {
+            for(int j = 0; j < t.length; j++) {
+                System.out.print(t[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    void transformViewMatrixTest4() {
+        MatrixOperations mo = new MatrixOperations();
+        Tuple from = new Tuple(1, 3, 2, 1);
+        Tuple to = new Tuple(4, -2, 8, 1);
+        Tuple up = new Tuple(1, 1, 0, 0);
+        double[][] t = mo.viewTransform(from , to , up);
+        for(int i = 0; i < t.length; i++) {
+            for(int j = 0; j < t.length; j++) {
+                System.out.print(t[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 }

@@ -209,4 +209,19 @@ public class MatrixOperations {
                 {zX, zY, 1, 0},
                 {0, 0, 0, 1}};
     }
+
+    public double[][] viewTransform(Tuple from, Tuple to, Tuple up) {
+        MatrixOperations mo = new MatrixOperations();
+        Tuple fo = to.subtract(from);
+        Tuple forward = fo.normal();
+        Tuple upn = up.normal();
+        Tuple left = forward.crossProduct(upn);
+        Tuple trueUp = left.crossProduct(forward);
+        double[][] orientation = new double[][] {{left.getX(), left.getY(), left.getZ(), 0},
+                {trueUp.getX(), trueUp.getY(), trueUp.getZ(), 0},
+                {-forward.getX(), -forward.getY(), -forward.getZ(), 0},
+                {0, 0, 0, 1}};
+        double[][] trans = mo.translation(-from.getX(), -from.getY(), -from.getZ());
+        return mo.multiplyMatrices(orientation, trans);
+    }
 }
