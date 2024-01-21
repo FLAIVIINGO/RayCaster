@@ -33,7 +33,4 @@ public class World {
         return this.objects.get(index);
     }
 
-    // public List<Intersection> intersectWorld(Ray ray) {
-
-    // }
 }

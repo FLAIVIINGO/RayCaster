@@ -50,4 +50,28 @@ public class CameraTest {
         assertTrue(ray.getOrigin().equalTuples(new Tuple(0, 2, -5, 1)));
         assertTrue(ray.getDirection().equalTuples(new Tuple(Math.sqrt(2)/2, 0, -Math.sqrt(2)/2, 0)));
     }
+
+    @Test
+    void testRender() {
+        MatrixOperations mo = new MatrixOperations();
+        Scene scene = new Scene();
+        World w = new World();
+        Light light = new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1));
+        Sphere s1 = new Sphere();
+        s1.getMaterial().setColor(new Color(0.8, 1.0, 0.6));
+        s1.getMaterial().setDiffuse(0.7);
+        s1.getMaterial().setSpecular(0.2);
+        w.setLight(light);
+        w.addShape(s1);
+        Sphere s2 = new Sphere();
+        s2.setTransform(mo.scaling(0.5, 0.5, 0.5));
+        w.addShape(s2);
+        Camera c = new Camera(11, 11, Math.PI / 2);
+        Tuple from = new Tuple(0, 0, -5, 1);
+        Tuple to = new Tuple(0, 0, 0, 1);
+        Tuple up = new Tuple(0, 1, 0, 0);
+        c.setTransform(mo.viewTransform(from, to ,up));
+        Canvas image = scene.render(c, w);
+        assertTrue(image.getPixel(5, 5).equalColors(new Color(0.38066, 0.47583, 0.2855)));
+    }
 }

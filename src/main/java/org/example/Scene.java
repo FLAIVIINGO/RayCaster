@@ -188,4 +188,16 @@ public class Scene {
         return new Ray(origin, directionNormal);
     }
 
+    public Canvas render(Camera c, World w) {
+        Canvas image = new Canvas(c.getHsize(), c.getVsize());
+        for(int y = 0; y < c.getVsize() - 1; y++) {
+            for(int x = 0; x < c.getHsize() - 1; x++) {
+                Ray ray = rayForPixel(c, x, y);
+                Color color = colorAt(w, ray);
+                image.setPixel(x, y, color);
+            }
+        }
+        return image;
+    }
+
 }

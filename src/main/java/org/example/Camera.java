@@ -1,8 +1,8 @@
 package org.example;
 
 public class Camera {
-    private double hsize;
-    private double vsize;
+    private int hsize;
+    private int vsize;
     private double fieldOfView;
     double[][] transform;
     private MatrixOperations mo;
@@ -19,7 +19,7 @@ public class Camera {
         this.fieldOfView = fieldOfView;
         this.transform = mo.identityMatrix();
         this.halfView = Math.tan(this.fieldOfView / 2);
-        this.aspect = this.hsize / this.vsize;
+        this.aspect = (double)this.hsize / (double)this.vsize;
         if(aspect >= 1) {
             this.halfWidth = this.halfView;
             this.halfHeight = this.halfView / this.aspect;
@@ -44,19 +44,19 @@ public class Camera {
         return this.pixelSize;
     }
 
-    public double getHsize() {
+    public int getHsize() {
         return hsize;
     }
 
-    public void setHsize(double hsize) {
+    public void setHsize(int hsize) {
         this.hsize = hsize;
     }
 
-    public double getVsize() {
+    public int getVsize() {
         return vsize;
     }
 
-    public void setVsize(double vsize) {
+    public void setVsize(int vsize) {
         this.vsize = vsize;
     }
 
