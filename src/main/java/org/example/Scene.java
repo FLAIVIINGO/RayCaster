@@ -175,4 +175,17 @@ public class Scene {
         return shadeHit(world, comps);
     }
 
+    public Ray rayForPixel(Camera c, double px, double py) {
+        MatrixOperations mo = new MatrixOperations();
+        double xoffset = (px + 0.5) * c.getPixelSize();
+        double yoffset = (py + 0.5) * c.getPixelSize();
+        double worldX = c.getHalfWidth() - xoffset;
+        double worldY = c.getHalfHeight() - yoffset;
+        Tuple pixel = mo.multiplyMatrixByTuple(mo.inverse(c.getTransform(), mo.determinant(c.getTransform())), new Tuple(worldX, worldY, -1, 1));
+        Tuple origin = mo.multiplyMatrixByTuple(mo.inverse(c.getTransform(), mo.determinant(c.getTransform())), new Tuple(0, 0, 0, 1));
+        Tuple direction = pixel.subtract(origin);
+        Tuple directionNormal = direction.normal();
+        return new Ray(origin, directionNormal);
+    }
+
 }
