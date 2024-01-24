@@ -20,48 +20,10 @@ public class Main {
         floor.setTransform(mo.scaling(10, 0.01, 10));
         floor.getMaterial().setColor(new Color(1, 0.9, 0.9));
         floor.getMaterial().setSpecular(0);
-        Sphere leftWall = new Sphere();
-        double[][] scalingM = mo.scaling(10, 0.01, 10);
-        double[][] rotationX = mo.rotationX(Math.PI / 2);
-        double[][] rotationY = mo.rotationY(-Math.PI / 4);
-        double[][] translation = mo.translation(0, 0, 5);
-        double[][] lm1 = mo.multiplyMatrices(scalingM, rotationX);
-        double[][] lm2 = mo.multiplyMatrices(lm1, rotationY);
-        double[][] resultLeft = mo.multiplyMatrices(lm2, translation);
-        leftWall.setTransform(resultLeft);
-        leftWall.getMaterial().setColor(new Color(1, 0.9, 0.9));
-        leftWall.getMaterial().setSpecular(0);
-        Sphere rightWall = new Sphere();
-        double[][] rm1 = mo.multiplyMatrices(scalingM, rotationX);
-        double[][] rotationYRight = mo.rotationY(Math.PI / 4);
-        double[][] rm2 = mo.multiplyMatrices(rm1, rotationYRight);
-        double[][] resultRight = mo.multiplyMatrices(rm2, translation);
-        rightWall.getMaterial().setColor(new Color(1, 0.9, 0.9));
-        rightWall.getMaterial().setSpecular(0);
-        Sphere middle = new Sphere();
-        middle.setTransform(mo.translation(-0.5, 1, 0.5));
-        middle.getMaterial().setColor(new Color(0.1, 1, 0.5));
-        middle.getMaterial().setDiffuse(0.7);
-        middle.getMaterial().setSpecular(0.3);
-        Sphere right = new Sphere();
-        double[][] sphereRscaling = mo.scaling(0.5, 0.5, 0.5);
-        double[][] sphereRtranslation = mo.translation(1.5, 0.5, -0.5);
-        right.setTransform(mo.multiplyMatrices(sphereRscaling, sphereRtranslation));
-        right.getMaterial().setColor(new Color(0.5, 1, 0.1));
-        right.getMaterial().setDiffuse(0.7);
-        right.getMaterial().setSpecular(0.3);
-        Sphere left = new Sphere();
-        double[][] sphereLScaling = mo.scaling(0.33, 0.33, 0.33);
-        double[][] sphereLTranslation = mo.translation(-1.5, 0.33, -0.75);
-        left.setTransform(mo.multiplyMatrices(sphereLScaling, sphereLTranslation));
-        left.getMaterial().setColor(new Color(1, 0.8, 0.1));
-        left.getMaterial().setDiffuse(0.7);
-        left.getMaterial().setSpecular(0.3);
+
+
         World world = new World();
-        world.addShape(leftWall);
-        world.addShape(rightWall);
-        world.addShape(right);
-        world.addShape(left);
+        world.addShape(floor);
         world.setLight(new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1)));
         Camera camera = new Camera(100, 50, Math.PI / 3);
         camera.setTransform(mo.viewTransform(new Tuple(0, 1.5, -5, 1), new Tuple(0, 1, 0, 1), new Tuple(0, 1, 0, 0)));
@@ -72,9 +34,10 @@ public class Main {
     public static void drawSphere() {
         Scene scene = new Scene();
         MatrixOperations mo = new MatrixOperations();
-        TupleCreation tp = new TupleCreation();
+        // TupleCreation tp = new TupleCreation();
         // start the ray at z = -5
-        Tuple rayOrigin = tp.point(0, 0, -5);
+        // Tuple rayOrigin = tp.point(0, 0, -5);
+        Tuple rayOrigin = new Tuple(0, 0, -5, 1);
         // put the wall at z = 10
         double wallZ = 10;
         // canvasPixels
@@ -98,7 +61,8 @@ public class Main {
             double worldY = half - pixelSize * y;
             for(int x = 0; x < canvas.getWidth(); x++) {
                 double worldX = -half + pixelSize * x;
-                Tuple position = tp.point(worldX, worldY, wallZ);
+                // Tuple position = tp.point(worldX, worldY, wallZ);
+                Tuple position = new Tuple(worldX, worldY, wallZ, 1);
                 Tuple t = position.subtract(rayOrigin);
                 t.normal();
                 Ray r = new Ray(rayOrigin, t);

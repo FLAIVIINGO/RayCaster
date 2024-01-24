@@ -40,7 +40,18 @@ public class Scene {
         double[][] transform = matrixOperations.inverse(shape.getTransform(), matrixOperations.determinant(shape.getTransform()));
         Tuple originTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getOrigin());
         Tuple directionTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getDirection());
+        System.out.println("Original Ray");
+        System.out.print("ray direction ");
+        ray.getDirection().printTuple();
+        System.out.print("ray origin ");
+        ray.getOrigin().printTuple();
         Ray transformedRay = new Ray(originTransform, directionTransform);
+        System.out.println("Transformed Ray");
+        System.out.print("ray direction ");
+        transformedRay.getDirection().printTuple();
+        System.out.println("Transformed Ray");
+        System.out.print("ray origin ");
+        transformedRay.getOrigin().printTuple();
         Tuple sphereToRay = calculateVectorToCenter(transformedRay.getOrigin(), shape.origin);
         // printRay(transformedRay);
         double a = transformedRay.getDirection().dotProduct(transformedRay.getDirection());
