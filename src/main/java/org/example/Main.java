@@ -16,17 +16,75 @@ public class Main {
     public static void drawWorld() {
         MatrixOperations mo = new MatrixOperations();
         Scene scene = new Scene();
+        // Floor
         Sphere floor = new Sphere();
         floor.setTransform(mo.scaling(10, 0.01, 10));
         floor.getMaterial().setColor(new Color(1, 0.9, 0.9));
         floor.getMaterial().setSpecular(0);
 
+        // Left wall
+        Sphere leftWall = new Sphere();
+        double[][] leftWallTranslation = mo.translation(0, 0, 5);
+        double[][] leftWallRotationY = mo.rotationY(-Math.PI / 4);
+        double[][] leftWallRotationX = mo.rotationX(Math.PI / 2);
+        double[][] leftWallScaling = mo.scaling(10, 0.01, 10);
+        double[][] leftWallCombinedMatrix = mo.multiplyMatrices(leftWallTranslation, leftWallRotationY);
+        leftWallCombinedMatrix = mo.multiplyMatrices(leftWallCombinedMatrix, leftWallRotationX);
+        leftWallCombinedMatrix = mo.multiplyMatrices(leftWallCombinedMatrix, leftWallScaling);
+        leftWall.setTransform(leftWallCombinedMatrix);
 
+        // Right Wall
+        Sphere rightWall = new Sphere();
+        double[][] rightWallTranslation = mo.translation(0, 0, 5);
+        double[][] rightWallRotationY = mo.rotationY(Math.PI / 4);
+        double[][] rightWallRotationX = mo.rotationX(Math.PI / 2);
+        double[][] rightWallScaling = mo.scaling(10, 0.01, 10);
+        double[][] rightWallCombinedMatrix = mo.multiplyMatrices(rightWallTranslation, rightWallRotationY);
+        rightWallCombinedMatrix = mo.multiplyMatrices(rightWallCombinedMatrix, rightWallRotationX);
+        rightWallCombinedMatrix = mo.multiplyMatrices(rightWallCombinedMatrix, rightWallScaling);
+        rightWall.setTransform(rightWallCombinedMatrix);
+
+        // Middle Sphere
+        Sphere middleSphere = new Sphere();
+        double[][] middleSphereTransform = mo.translation(-0.5, 1, 0.5);
+        middleSphere.setTransform(middleSphereTransform);
+        middleSphere.getMaterial().setColor(new Color(0.1, 1, 0.5));
+        middleSphere.getMaterial().setDiffuse(0.7);
+        middleSphere.getMaterial().setSpecular(0.3);
+
+        // Right Sphere
+        Sphere rightSphere = new Sphere();
+        double[][] rightSphereTranslation = mo.translation(1.5, 0.5, -0.5);
+        double[][] rightSphereScaling = mo.scaling(0.5, 0.5, 0.5);
+        rightSphere.setTransform(mo.multiplyMatrices(rightSphereTranslation, rightSphereScaling));
+        rightSphere.getMaterial().setColor(new Color(0.5, 1, 0.1));
+        rightSphere.getMaterial().setDiffuse(0.7);
+        rightSphere.getMaterial().setSpecular(0.3);
+
+        // Left Sphere
+        Sphere leftSphere = new Sphere();
+        double[][] leftSphereTranslation = mo.translation(-1.5, 0.33, -0.75);
+        double[][] leftSphereScaling = mo.translation(0.33, 0.33, 0.33);
+        leftSphere.setTransform(mo.multiplyMatrices(leftSphereTranslation, leftSphereScaling));
+        leftSphere.getMaterial().setColor(new Color(1, 0.8, 0.1));
+        leftSphere.getMaterial().setDiffuse(0.7);
+        leftSphere.getMaterial().setSpecular(0.3);
+
+        // World
         World world = new World();
         world.addShape(floor);
+        world.addShape(leftWall);
+        world.addShape(rightWall);
+        world.addShape(middleSphere);
+        world.addShape(rightSphere);
+        world.addShape(leftSphere);
         world.setLight(new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1)));
-        Camera camera = new Camera(100, 50, Math.PI / 3);
+
+        // Camera
+        Camera camera = new Camera(600, 300, Math.PI / 3);
         camera.setTransform(mo.viewTransform(new Tuple(0, 1.5, -5, 1), new Tuple(0, 1, 0, 1), new Tuple(0, 1, 0, 0)));
+
+        // Canvas
         Canvas canvas = scene.render(camera, world);
         canvas.canvasToPPM("world.ppm");
     }
