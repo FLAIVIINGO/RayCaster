@@ -132,7 +132,7 @@ public class Main {
                     Tuple negateR = r.getDirection();
                     negateR.negate();
                     Tuple eye = negateR;
-                    Color color = scene.lighting(sphere.getMaterial(), point, light, eye, normal);
+                    Color color = scene.lighting(sphere.getMaterial(), point, light, eye, normal, false);
                     canvas.setPixel(x, y, color);
                 }
             }

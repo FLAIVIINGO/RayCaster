@@ -128,7 +128,7 @@ public class Scene {
         return in.subtract(r2);
     }
 
-    public Color lighting(Material material, Tuple point, Light source, Tuple eyev, Tuple normalv) {
+    public Color lighting(Material material, Tuple point, Light source, Tuple eyev, Tuple normalv, boolean inShadow) {
 
         Color effectiveColor = material.getColor().hadamardProduct(source.getIntensity());
         Tuple lv = source.getPosition().subtract(point);
@@ -143,7 +143,7 @@ public class Scene {
         Color specular;
         Tuple reflectv;
         double reflectDotEye;
-        if(lightDotNormal < 0) {
+        if(lightDotNormal < 0 || inShadow) {
             diffuse = new Color(0, 0, 0);
             specular = new Color(0, 0, 0);
         }
@@ -173,7 +173,8 @@ public class Scene {
     }
 
     public Color shadeHit(World world, Computations computations) {
-        return lighting(computations.getShape().getMaterial(), computations.getPoint(), world.getLight(), computations.getEyev(), computations.getNormalv());
+        return null;
+        // return lighting(computations.getShape().getMaterial(), computations.getPoint(), world.getLight(), computations.getEyev(), computations.getNormalv());
     }
 
     public Color colorAt(World world, Ray ray) {
@@ -209,6 +210,22 @@ public class Scene {
             }
         }
         return image;
+    }
+
+    public boolean isShadowed(World w, Tuple p) {
+        Tuple v = w.getLight().getPosition().subtract(p);
+        double distance = v.magnitude();
+        Tuple direction = v.normal();
+
+        Ray r = new Ray(p, direction);
+        List<Intersection> intersections = intersectWorld(w, r);
+        Intersection h = hit(intersections);
+        if(h != null && h.getTime() < distance) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }
