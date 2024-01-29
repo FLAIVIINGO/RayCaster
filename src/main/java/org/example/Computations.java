@@ -8,8 +8,11 @@ public class Computations {
     private Tuple point;
     private Tuple eyev;
     private Tuple normalv;
+    private Tuple overPoint;
 
     private boolean inside;
+
+    final double EPSILON = 0.00001;
 
     public Computations(Intersection intersection, Ray ray) {
         Scene scene = new Scene();
@@ -22,6 +25,7 @@ public class Computations {
         Sphere sphere = (Sphere)object;
         this.normalv = object.normalAt(sphere, this.point);
         this.inside = isInside();
+        this.overPoint = this.point.add(this.normalv.multiplyScalar(EPSILON));
     }
 
     private boolean isInside() {
@@ -32,6 +36,10 @@ public class Computations {
         else {
             return false;
         }
+    }
+
+    public Tuple getOverPoint() {
+        return this.overPoint;
     }
 
     public Tuple getPoint() {

@@ -48,16 +48,16 @@ public class Main {
         Sphere middleSphere = new Sphere();
         double[][] middleSphereTransform = mo.translation(-0.5, 1, 0.5);
         middleSphere.setTransform(middleSphereTransform);
-        middleSphere.getMaterial().setColor(new Color(0.1, 1, 0.5));
+        middleSphere.getMaterial().setColor(new Color(1, 0, 0.5));
         middleSphere.getMaterial().setDiffuse(0.7);
         middleSphere.getMaterial().setSpecular(0.3);
 
         // Right Sphere
         Sphere rightSphere = new Sphere();
-        double[][] rightSphereTranslation = mo.translation(1.5, 0.5, -0.5);
+        double[][] rightSphereTranslation = mo.translation(1.5, 2, 1.5);
         double[][] rightSphereScaling = mo.scaling(0.5, 0.5, 0.5);
         rightSphere.setTransform(mo.multiplyMatrices(rightSphereTranslation, rightSphereScaling));
-        rightSphere.getMaterial().setColor(new Color(0.5, 1, 0.1));
+        rightSphere.getMaterial().setColor(new Color(0, 0, 1));
         rightSphere.getMaterial().setDiffuse(0.7);
         rightSphere.getMaterial().setSpecular(0.3);
 
@@ -77,7 +77,7 @@ public class Main {
         world.addShape(rightWall);
         world.addShape(middleSphere);
         world.addShape(rightSphere);
-        world.addShape(leftSphere);
+        // world.addShape(leftSphere);
         world.setLight(new Light(new Color(1, 1, 1), new Tuple(-10, 10, -10, 1)));
 
         // Camera

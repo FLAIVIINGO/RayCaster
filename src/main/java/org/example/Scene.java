@@ -173,8 +173,8 @@ public class Scene {
     }
 
     public Color shadeHit(World world, Computations computations) {
-        return null;
-        // return lighting(computations.getShape().getMaterial(), computations.getPoint(), world.getLight(), computations.getEyev(), computations.getNormalv());
+        boolean shadowed = isShadowed(world, computations.getOverPoint());
+        return lighting(computations.getShape().getMaterial(), computations.getPoint(), world.getLight(), computations.getEyev(), computations.getNormalv(), shadowed);
     }
 
     public Color colorAt(World world, Ray ray) {
