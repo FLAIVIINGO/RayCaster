@@ -34,26 +34,14 @@ public class Scene {
         System.out.println("x: "+ray.getDirection().getX()+"y: "+ray.getDirection().getY()+"z: "+ray.getDirection().getZ());
     }
 
-    public List<Intersection> intersect(Shape3D shape, Ray ray) {
+    /*public List<Intersection> intersect(Shape3D shape, Ray ray) {
         // transform ray before calculation
         MatrixOperations matrixOperations = new MatrixOperations();
         double[][] transform = matrixOperations.inverse(shape.getTransform(), matrixOperations.determinant(shape.getTransform()));
         Tuple originTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getOrigin());
         Tuple directionTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getDirection());
-        /*System.out.println("Original Ray");
-        System.out.print("ray direction ");
-        ray.getDirection().printTuple();
-        System.out.print("ray origin ");
-        ray.getOrigin().printTuple();*/
         Ray transformedRay = new Ray(originTransform, directionTransform);
-        /*System.out.println("Transformed Ray");
-        System.out.print("ray direction ");
-        transformedRay.getDirection().printTuple();
-        System.out.println("Transformed Ray");
-        System.out.print("ray origin ");
-        transformedRay.getOrigin().printTuple();*/
         Tuple sphereToRay = calculateVectorToCenter(transformedRay.getOrigin(), shape.origin);
-        // printRay(transformedRay);
         double a = transformedRay.getDirection().dotProduct(transformedRay.getDirection());
         double b = 2 * transformedRay.getDirection().dotProduct(sphereToRay);
         double c = sphereToRay.dotProduct(sphereToRay) - 1;
@@ -69,7 +57,7 @@ public class Scene {
         Intersection i1 = new Intersection(t1, shape);
         Intersection i2 = new Intersection(t2, shape);
         return new ArrayList<>(Arrays.asList(i1, i2));
-    }
+    }*/
 
     public List<Intersection> intersections(List<List<Intersection>> intersectionGroups) {
         List<Intersection> aggregatedIntersections = new ArrayList<>();
@@ -86,7 +74,7 @@ public class Scene {
     public List<Intersection> intersectWorld(World w, Ray ray) {
         List<Intersection> xs = new ArrayList<>();
         for (Shape3D shape : w.getObjects()) {
-            xs.addAll(intersect(shape, ray));
+            xs.addAll(shape.intersect(ray));
         }
         xs.sort((i1, i2) -> Double.compare(i1.getTime(), i2.getTime()));
         return xs;

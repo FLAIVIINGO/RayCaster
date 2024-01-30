@@ -125,10 +125,10 @@ public class Main {
                 t.normal();
                 Ray r = new Ray(rayOrigin, t);
                 r.normalizeDirection();
-                List<Intersection> xs = scene.intersect(sphere, r);
+                List<Intersection> xs = sphere.intersect(r);
                 if(scene.hit(xs) != null) {
                     Tuple point = r.position(r, xs.get(0).getTime());
-                    Tuple normal = sphere.normalAt((Sphere)sphere, point);
+                    Tuple normal = sphere.normalAt(point);
                     Tuple negateR = r.getDirection();
                     negateR.negate();
                     Tuple eye = negateR;

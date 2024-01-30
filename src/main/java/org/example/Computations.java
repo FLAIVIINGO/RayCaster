@@ -23,7 +23,7 @@ public class Computations {
         this.eyev.negate();
         // need to make this more abstract for other 3D shapes !!!!!!
         Sphere sphere = (Sphere)object;
-        this.normalv = object.normalAt(sphere, this.point);
+        this.normalv = object.normalAt(this.point);
         this.inside = isInside();
         this.overPoint = this.point.add(this.normalv.multiplyScalar(EPSILON));
     }

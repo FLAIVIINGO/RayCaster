@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,9 +53,10 @@ public class Sphere extends Shape3D{
         this.material.setShininess(shininess);
     }
 
-    public Tuple normalAt(Sphere s, Tuple wp) {
+    @Override
+    public Tuple normalAt(Tuple wp) {
         // Convert the world point to object space
-        double[][] inverseTransformation = mo.inverse(s.getTransform(), mo.determinant(s.getTransform()));
+        double[][] inverseTransformation = mo.inverse(this.getTransform(), mo.determinant(this.getTransform()));
         Tuple objectPoint = mo.multiplyMatrixByTuple(inverseTransformation, wp);
 
         // Compute the object space normal
@@ -68,6 +71,37 @@ public class Sphere extends Shape3D{
         // Normalize the world space normal
 
         return worldNormal.normal();
+    }
+    @Override
+    public List<Intersection> intersect(Ray ray) {
+        // transform ray before calculation
+        MatrixOperations matrixOperations = new MatrixOperations();
+        double[][] transform = matrixOperations.inverse(this.getTransform(), matrixOperations.determinant(this.getTransform()));
+        Tuple originTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getOrigin());
+        Tuple directionTransform = matrixOperations.multiplyMatrixByTuple(transform, ray.getDirection());
+        Ray transformedRay = new Ray(originTransform, directionTransform);
+        Tuple sphereToRay = calculateVectorToCenter(transformedRay.getOrigin(), this.origin);
+        double a = transformedRay.getDirection().dotProduct(transformedRay.getDirection());
+        double b = 2 * transformedRay.getDirection().dotProduct(sphereToRay);
+        double c = sphereToRay.dotProduct(sphereToRay) - 1;
+        double discriminant = b * b - 4 * a * c;
+
+        if(discriminant < 0) {
+            return new ArrayList<>();
+        }
+        double t1 = (-b-Math.sqrt(discriminant)) / (2 * a);
+        double t2 = (-b+Math.sqrt(discriminant)) / (2 * a);
+
+
+        Intersection i1 = new Intersection(t1, this);
+        Intersection i2 = new Intersection(t2, this);
+        return new ArrayList<>(Arrays.asList(i1, i2));
+    }
+
+    private Tuple calculateVectorToCenter(Tuple p1, Tuple p2) {
+        // p1 = ray origin
+        // p2 = sphere center (0, 0, 0)
+        return new Tuple(p1.getX() - p2.getX(), p1.getY() - p2.getY(), p1.getZ() - p2.getZ(), 0);
     }
 
 }

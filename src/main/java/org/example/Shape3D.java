@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class Shape3D {
@@ -50,23 +51,7 @@ public abstract class Shape3D {
         this.material.setShininess(shininess);
     }
 
-    public Tuple normalAt(Sphere s, Tuple wp) {
-        MatrixOperations mo = new MatrixOperations();
-        // Convert the world point to object space
-        double[][] inverseTransformation = mo.inverse(s.getTransform(), mo.determinant(s.getTransform()));
-        Tuple objectPoint = mo.multiplyMatrixByTuple(inverseTransformation, wp);
+    public abstract Tuple normalAt(Tuple wp);
 
-        // Compute the object space normal
-        Tuple objectNormal = objectPoint.subtract(new Tuple(0, 0, 0, 1));
-
-        // Convert the object space normal to world space
-        double[][] transposedInverse = mo.transposeMatrix(inverseTransformation);
-
-        Tuple worldNormal = mo.multiplyMatrixByTuple(transposedInverse, objectNormal);
-
-        worldNormal.setW(0); // Ensure w is 0 to make it a vector
-        // Normalize the world space normal
-
-        return worldNormal.normal();
-    }
+    public abstract List<Intersection> intersect(Ray ray);
 }

@@ -13,7 +13,7 @@ public class SphereTest {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 2);
         assertEquals(xs.get(0).getTime(), 4.0);
         assertEquals(xs.get(1).getTime(), 6.0);
@@ -24,7 +24,7 @@ public class SphereTest {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         Ray ray = new Ray(new Tuple(0, 1, -5, 0), new Tuple(0, 0, 1, 0));
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 2);
         assertEquals(xs.get(0).getTime(), 5.0);
         assertEquals(xs.get(1).getTime(), 5.0);
@@ -35,7 +35,7 @@ public class SphereTest {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         Ray ray = new Ray(new Tuple(0, 2, -5, 1), new Tuple(0, 0, 1, 0));
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 0);
     }
 
@@ -44,7 +44,7 @@ public class SphereTest {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         Ray ray = new Ray(new Tuple(0, 0, 0, 1), new Tuple(0, 0, 1, 0));
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 2);
         assertEquals(xs.get(0).getTime(), -1.0);
         assertEquals(xs.get(1).getTime(), 1.0);
@@ -55,7 +55,7 @@ public class SphereTest {
         Scene scene = new Scene();
         Sphere sphere = new Sphere();
         Ray ray = new Ray(new Tuple(0, 0, 5, 1), new Tuple(0, 0, 1, 0));
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 2);
         assertEquals(xs.get(0).getTime(), -6.0);
         assertEquals(xs.get(1).getTime(), -4.0);
@@ -185,7 +185,7 @@ public class SphereTest {
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         double[][] t = mo.scaling(2, 2, 2);
         sphere.setTransform(t);
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 2);
         assertEquals(xs.get(0).getTime(), 3);
         assertEquals(xs.get(1).getTime(), 7);
@@ -198,35 +198,35 @@ public class SphereTest {
         MatrixOperations mo = new MatrixOperations();
         Ray ray = new Ray(new Tuple(0, 0, -5, 1), new Tuple(0, 0, 1, 0));
         sphere.setTransform(mo.translation(5, 0, 0));
-        List<Intersection> xs = scene.intersect(sphere, ray);
+        List<Intersection> xs = sphere.intersect(ray);
         assertEquals(xs.size(), 0);
     }
 
     @Test
     void normalSpherePointX() {
         Sphere sphere = new Sphere();
-        Tuple n = sphere.normalAt(sphere, new Tuple(1, 0, 0, 1));
+        Tuple n = sphere.normalAt(new Tuple(1, 0, 0, 1));
         assertTrue(n.equalTuples(new Tuple(1, 0, 0, 0)));
     }
 
     @Test
     void normalSpherePointY() {
         Sphere sphere = new Sphere();
-        Tuple n = sphere.normalAt(sphere, new Tuple(0, 1, 0, 1));
+        Tuple n = sphere.normalAt(new Tuple(0, 1, 0, 1));
         assertTrue(n.equalTuples(new Tuple(0, 1, 0, 0)));
     }
 
     @Test
     void normalSpherePointZ() {
         Sphere sphere = new Sphere();
-        Tuple n = sphere.normalAt(sphere, new Tuple(0, 0, 1, 1));
+        Tuple n = sphere.normalAt(new Tuple(0, 0, 1, 1));
         assertTrue(n.equalTuples(new Tuple(0, 0, 1, 0)));
     }
 
     @Test
     void normalSphereNonAxialPoint() {
         Sphere sphere = new Sphere();
-        Tuple n = sphere.normalAt(sphere, new Tuple(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3, 1));
+        Tuple n = sphere.normalAt(new Tuple(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3, 1));
         assertTrue(n.equalTuples(new Tuple(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3, 0)));
     }
 
@@ -235,7 +235,7 @@ public class SphereTest {
         MatrixOperations mo = new MatrixOperations();
         Sphere sphere = new Sphere();
         sphere.setTransform(mo.translation(0, 1, 0));
-        Tuple n = sphere.normalAt(sphere, new Tuple(0, 1.70711, -0.70711, 1));
+        Tuple n = sphere.normalAt(new Tuple(0, 1.70711, -0.70711, 1));
         assertTrue(n.equalTuples(new Tuple(0, 0.70711, -0.70711, 0)));
     }
 
@@ -247,7 +247,7 @@ public class SphereTest {
         double[][] rotation = mo.rotationZ(Math.PI/5);
         double[][] transform = mo.multiplyMatrices(scaling, rotation);
         sphere.setTransform(transform);
-        Tuple n = sphere.normalAt(sphere, new Tuple(0, Math.sqrt(2)/2, -Math.sqrt(2)/2, 1));
+        Tuple n = sphere.normalAt(new Tuple(0, Math.sqrt(2)/2, -Math.sqrt(2)/2, 1));
         assertTrue(n.equalTuples(new Tuple(0, 0.97014, -0.24254, 0)));
     }
 
